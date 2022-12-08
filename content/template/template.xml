@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="1.0" type="plugin" group="content">
+	<name>Content - Template</name>
+	<author>Jean-Luc TRYOEN</author>
+	<creationDate>November 2022</creationDate>
+	<copyright>Copyright (C) 2022 JEan-Luc TRYOEN. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-3.0.html GNU/GPL</license>
+	<authorEmail>jltryoen@orange.fr</authorEmail>
+	<authorUrl>www.jltryoen.fr</authorUrl>
+	<version>1.0</version>
+	<description>Generic Mediawiki like Template plugin, use it with {warning |content=content}</description>
+	<files>
+		<filename plugin="template">template.php</filename>
+	</files>
+</extension>
