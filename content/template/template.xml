@@ -12,4 +12,20 @@
 	<files>
 		<filename plugin="template">template.php</filename>
 	</files>
+    <config>
+		<fields name="params">
+            <fieldset name="basic">
+                <field
+                    name="catid"
+                    type="category"
+                    extension="com_content"
+                    class="inputbox"
+                    default=""
+                    label="COM_JCOACHING_CALENDAR_FIELD_CATID_LABEL"
+                    description="COM_JCOACHING_CALENDAR_FIELD_CATID_DESC"
+                    required="true"
+                />
+            </fieldset>
+        </fields>
+    </config>
 </extension>
