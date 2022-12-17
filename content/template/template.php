@@ -161,19 +161,18 @@ class PlgContentTemplate extends JPlugin
                 $splitar = preg_split("/\./", basename($file));
                 $this->alltemplates[] = new FileTemplate($splitar[0], $file);            
             }
-            $articleId = $this->params->get('catid');
-            if ($articleId) {
+            $catId = $this->params->get('catid');
+            if ($catId) {
                 $app     = Factory::getApplication();
                 $factory = $app->bootComponent('com_content')->getMVCFactory();
                 // Get an instance of the generic articles model
                 $jarticles = $factory->createModel('Articles', 'Site', ['ignore_request' => true]);
-                $jarticles->setState('filter.category_id', array(153));
+                $jarticles->setState('filter.category_id', array($catId));
                 $appParams = $app->getParams();
                 $jarticles->setState('params', $appParams);
                 //$jarticles->setState('list.limit', 10);
                 $jarticles->setState('filter.published', 1);
-                $articles= $jarticles->getItems(); 
-                $row->text = "";
+                $articles= $jarticles->getItems();                 
                 foreach ($articles as $article) {    
                     $this->alltemplates[] = new Template($article->alias, $article->introtext); 
                 }
@@ -191,7 +190,7 @@ class PlgContentTemplate extends JPlugin
         foreach($this->alltemplates  as $template) {
             $searchexp = sprintf(PF_REGEX_SEARCH_PATTERN, $template->name);
             if (!strpos( $row->text, $searchexp) === false ) {
-                $params= array("ROOTURI" => Uri::root(true));
+                $params= array("ROOTURI" =>JURI::root() );
                 $row->text = $this->replace_template($row->text, $template, $params);
             }
         }        
