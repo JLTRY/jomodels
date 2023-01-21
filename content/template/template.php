@@ -12,6 +12,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Application\AdministratorApplication;
 //jimport( 'joomla.plugin.plugin' );
 define('PF_REGEX_SEARCH_PATTERN', "{{%s");
 define('PF_REGEX_TEMPLATE_PATTERN', "#{{%s([^}]*)}}#s");
@@ -151,7 +152,9 @@ class PlgContentTemplate extends JPlugin
 	function onPrepareRow(&$row) 
 	{
 		//Escape fast
-		if (!$this->params->get('enabled', 1)) {
+        $app  = Factory::getApplication();
+		if (!$this->params->get('enabled', 1) || !$app->isClient('site'))
+        {
 			return true;
 		}
         $match = false;
@@ -163,7 +166,7 @@ class PlgContentTemplate extends JPlugin
             }
             $catId = $this->params->get('catid');
             if ($catId) {
-                $app     = Factory::getApplication();
+                
                 $factory = $app->bootComponent('com_content')->getMVCFactory();
                 // Get an instance of the generic articles model
                 $jarticles = $factory->createModel('Articles', 'Site', ['ignore_request' => true]);
