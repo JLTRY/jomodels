@@ -80,9 +80,8 @@ class PlgContentTemplate extends JPlugin
     /**
 	* Function to insert template template
 	*
-	* Method is called by the onContentPrepare or onPrepareContent
-	*
-	* @param string The text string to find and replace
+	* @param $template : the template
+    * @param $params : paramters to replace
 	*/	   
 	function _template($template,  $params)
 	{
@@ -97,7 +96,7 @@ class PlgContentTemplate extends JPlugin
                 $html_content = $this->replace_template($html_content, $template, $params);
             }
         }
-        //variables
+        //default variables
         $matches= array();
         while (preg_match(PF_REGEX_VARIABLE_PATTERN, $html_content, $matches)){
             $html_content = preg_replace(PF_REGEX_VARIABLE_PATTERN, '\1', $html_content);
