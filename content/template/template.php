@@ -13,6 +13,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Application\AdministratorApplication;
+use Joomla\CMS\Plugin\CMSPlugin as JPlugin;
+use Joomla\CMS\Uri\Uri as JURI;
+
 //jimport( 'joomla.plugin.plugin' );
 define('PF_REGEX_SEARCH_PATTERN', "{{%s");
 define('PF_REGEX_TEMPLATE_PATTERN', "#{{%s([^}]*)}}#s");
