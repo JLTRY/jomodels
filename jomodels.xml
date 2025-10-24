@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.0" type="plugin" group="content" method="upgrade">
+	<name>PLG_CONTENT_JOMODELS_XML</name>
+	<author>JL TRYOEN</author>
+	<creationDate>October 2025</creationDate>
+	<copyright>Copyright (C) 2025 JL TRYOEN. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-3.0.html GNU/GPL</license>
+	<authorEmail>jltryoen@orange.fr</authorEmail>
+	<authorUrl>www.jltryoen.fr</authorUrl>
+	<version>1.0</version>
+	<description>Generic Mediawiki like Template plugin, use it with {model:warning |content=content}</description>
+	<scriptfile>install.php</scriptfile>
+	<namespace path="src">JLTRY\Plugin\Content\JOModels</namespace>
+	<files>
+		<folder plugin="jomodels">services</folder>
+		<folder>src</folder>
+	</files>
+    <updateservers>
+       <server type="extension" priority="1" name="JO's Models Updates">https://raw.githubusercontent.com/JLTRY/jomodels/master/jomodels-update.xml</server>
+    </updateservers>
+    <config>
+		<fields name="params">
+            <fieldset name="basic">
+                <field
+                    name="catid"
+                    type="category"
+                    extension="com_content"
+                    class="inputbox"
+                    default=""
+                    label="PLG_CONTENT_JOMODELS_CATID_LABEL"
+                    description="PLG_CONTENT_JOMODELS_CATID_DESC"
+                    required="true"
+                />
+            </fieldset>
+        </fields>
+    </config>
+</extension>
