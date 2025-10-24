@@ -28,7 +28,8 @@ define('PF_REGEX_VARIABLE_PATTERN',  "/{{{[^|]+\|+([^}|]+)}}}/");
 */
 class Template
 {
-	const _DEFAULT="PRIO0";
+	const _PRIO0="PRIO0";
+    const _PRIO1="PRIO0";
 	function __construct( $name, $content, $metakey=Template::_DEFAULT)
 	{
 		$this->name = $name;
@@ -170,7 +171,6 @@ class PlgContentTemplate extends JPlugin
 			}
 			$catId = $this->params->get('catid');
 			if ($catId) {
-
 				$factory = $app->bootComponent('com_content')->getMVCFactory();
 				// Get an instance of the generic articles model
 				$jarticles = $factory->createModel('Articles', 'Site', ['ignore_request' => true]);
@@ -186,7 +186,7 @@ class PlgContentTemplate extends JPlugin
 			}
 		}
 		foreach($this->alltemplates  as $template) {
-			if (! strcmp($template->prio, "PRIO1")) {
+			if (! strcmp($template->prio, Template::_PRIO1)) {
 				$params= array("ROOTURI" =>JURI::root() );
 				$searchexp = sprintf(PF_REGEX_SEARCH_PATTERN, $template->name);
 				if (! strpos( $row->text, $searchexp) === false ){
@@ -195,7 +195,7 @@ class PlgContentTemplate extends JPlugin
 			}
 		}
 		foreach($this->alltemplates  as $template) {
-			if (! strcmp($template->prio, Template::_DEFAULT)) {
+			if (! strcmp($template->prio, Template::_PRIO0)) {
 				$params= array("ROOTURI" =>JURI::root() );
 				$searchexp = sprintf(PF_REGEX_SEARCH_PATTERN, $template->name);
 				if (! strpos( $row->text, $searchexp) === false ){
