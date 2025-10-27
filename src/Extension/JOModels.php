@@ -88,18 +88,21 @@ class JOModels extends CMSPlugin implements SubscriberInterface
             //retrieves all Models
             $factory = Factory::getApplication()->bootComponent('com_jomodels')->getMVCFactory();
             if ($factory) {
-                $jarticles = $factory->createModel('Models', 'Administrator', ['ignore_request' => true]);
+                $jarticles = $factory->createModel('Jomodels', 'Site', ['ignore_request' => true]);
 				$appParams = Factory::getApplication()->getParams();
 				$jarticles->setState('params', $appParams);
 				$jarticles->setState('filter.published', 1);
-				$articles= $jarticles->getItems();
+				$articles = $jarticles->getItems();
                 Log::add("articles found ".print_r($articles, true), Log::DEBUG, "webt");
 				foreach ($articles as $article) {
 					$this->allmodels[] = new JOModel($article->alias, $article->text, $article->type);
                 }
             }
+            else {
+                 Log::add("no factory found ", Log::DEBUG, "webt");
+            }
+            Log::add("models found ".print_r($this->allmodels, true), Log::DEBUG, "webt");
 		}
 		JOModelsHelper::replaceModels($row->text, $this->allmodels); 
 	}
- 
 }

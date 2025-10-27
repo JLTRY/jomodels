@@ -12,7 +12,7 @@
 */
 namespace JLTRY\Plugin\Content\JOModels\Helper;
 use Joomla\CMS\Uri\Uri;
-
+use Joomla\CMS\Log\Log;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -31,15 +31,22 @@ define('COM_JOMODELS_MODEL_FULL', 0);
 */
 class JOModel
 {
-	const _PRIO0="PRIO0";
-    const _PRIO1="PRIO1";
     public $name;
     public $prio;
     public $content;
 	function __construct( $name, $content, $metakey=COM_JOMODELS_MODEL_FULL)
 	{
 		$this->name = $name;
-		$this->prio = strlen($metakey)? $metakey : COM_JOMODELS_MODEL_FULL;
+		if (is_string($metakey)) {
+            if (!strcmp($metakey, "PRIO1") || ($metakey == COM_JOMODELS_MODEL_NORMAL)) {
+                $this->prio = COM_JOMODELS_MODEL_NORMAL;
+            }
+            elseif (!strcmp($metakey, "PRIO1")|| !strlen($metakey)  || ($metakey == COM_JOMODELS_MODEL_FULL)) {
+                $this->prio = COM_JOMODELS_MODEL_FULL;
+            }
+         } else {
+            $this->prio = $metakey;
+        }
 		$this->content = str_replace("</pre>", "", str_replace("<pre>", "", $content));
 	}
 }
@@ -89,30 +96,6 @@ class JOModelsHelper
 		return $html_content;
 	}
 
-    /**
-     * Method to extract key/value pairs out of a string with XML style attributes
-     *
-     * @param   string  $string  String containing XML style attributes
-     *
-     * @return  array  Key/Value pairs for the attributes
-     *
-     * @since   1.7.0
-     */
-    /* public static function parseAttributes($string, &$retarray)
-    {
-        $attr     = [];
-        // Let's grab all the key/value pairs using a regular expression
-        preg_match_all('/([\s\|]*[\w:-]+)=([^|}]*)[\s]?/i', $string, $attr);
-
-        if (\is_array($attr)) {
-            $numPairs = \count($attr[1]);
-
-            for ($i = 0; $i < $numPairs; $i++) {
-                $retarray[$attr[1][$i]] = $attr[2][$i];
-            }
-        }
-    } */
-    
     public static function parseAttributes($string, &$retarray)
     {
         $pairs = explode('|', trim($string));
