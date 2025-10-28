@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<extension type="package" version="4.0" method="upgrade">
+    <name>PKG_JOMODELS</name>
+    <packagename>jomodels</packagename>
+    <version>1.0.1</version>
+    <creationDate>October 26, 2025</creationDate>
+    <copyright>(C) 2025-2025 JL TRYOEN. All rights reserved.</copyright>
+    <license>https://www.gnu.org/licenses/gpl-3.0.html GNU/GPL</license>
+    <author>JL TRYOEN</author>
+    <authorEmail>jltryoen@orange.fr</authorEmail>
+    <authorUrl>https://github.com/JLTRY/plg_jofacebook</authorUrl>
+    <packager>JL TRYOEN</packager>
+    <packagerurl>https://github.com/JLTRY/plg_jofacebook</packagerurl>
+    <description>PKG_JOFACEBOOK_DESCRIPTION</description>
+    <scriptfile>install.jomodel.php</scriptfile>
+    <files folder="packages">
+        <file type="plugin" id="jomodels" group="content">jomodels_plugin.zip</file>
+        <file type="component" id="com_jomodels">com_jomodels.zip</file>
+    </files>
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.pkg_jomodels.sys.ini</language>
+        <language tag="fr-FR">language/fr-FR/fr-FR.pkg_jofacebook.sys.ini</language>
+    </languages>
+
+    <updateservers>
+       <server type="extension" priority="1" name="JO's Models updates">https://raw.githubusercontent.com/JLTRY/jomodels/master/pkg_jomodels/pkg_jomodels-update_pkg.xml</server>
+    </updateservers>
+
+</extension>

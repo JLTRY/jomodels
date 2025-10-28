@@ -1,29 +1,41 @@
 VERSION = "1.0.1"
 VERSION2 = $(shell echo $(VERSION)|sed 's/ /-/g')
-PACKAGE = jomodels
-ZIPFILE = $(PACKAGE)-$(VERSION2).zip
-UPDATEFILE = $(PACKAGE)-update.xml
+PKG=pkg_jomodels
+ZIPFILE = $(PKG)-$(VERSION2).zip
+UPDATEFILE = update_pkg.xml
 MKFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
 MKFILE_DIR := $(dir $(MKFILE_PATH))
 ROOT = $(shell pwd)
 
 
+all: parts $(ZIPFILE) fixsha
 
-.PHONY: $(ZIPFILE)
+INSTALLS = jomodels_plugin \
+	   com_jomodels
 
-ALL : $(ZIPFILE) fixsha
+EXTRAS = 
 
+NAMES = $(INSTALLS) $(EXTRAS)
 
+ZIPS = $(NAMES:=.zip)
 
-ZIPIGNORES = -x "*.git*" -x "*.svn*" -x "thumbs/*" -x "*.zip" -x "tests/*" -x Makefile -x "*.sh" -x "*/*/*.git*"
+ZIPIGNORES = -x "*.git*" -x "*.svn*" -x "*.zip" -x "tests/*" -x Makefile -x "*.sh" -x "*/*/*.git*"
 
+parts: $(ZIPS)
 
-
-$(ZIPFILE): 
+%.zip:
 	@echo "-------------------------------------------------------"
-	@echo "Creating zip file for: $@"
+	@echo "Creating zip file for: $*"
 	@rm -f $@
-	@(cd $(ROOT); zip -r $@ * $(ZIPIGNORES))
+	@(cd $*; zip -r ../$@ * $(ZIPIGNORES))
+
+$(ZIPFILE): $(ZIPS)
+	@echo "-------------------------------------------------------"
+	@echo "Creating extension zip file: $(ZIPFILE)"
+	@mv $(INSTALLS:=.zip) $(PKG)/packages/
+	@(cd  $(PKG); zip -r ../$@ * $(ZIPIGNORES))
+	@echo "-------------------------------------------------------"
+	@echo "Finished creating package $(ZIPFILE)."
 
 
 fixversions:
