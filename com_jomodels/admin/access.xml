@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<access component="com_jomodels">
+	<section name="component">
+        <action name="core.admin" title="JACTION_ADMIN" description="JACTION_ADMIN_COMPONENT_DESC" />
+        <action name="core.options" title="JACTION_OPTIONS" description="JACTION_OPTIONS_COMPONENT_DESC" />
+        <action name="core.manage" title="JACTION_MANAGE" description="JACTION_MANAGE_COMPONENT_DESC" />
+        <action name="core.export" title="COM_JOMODELS_EXPORT_DATA" description="COM_JOMODELS_EXPORT_DATA_DESC" />
+        <action name="core.import" title="COM_JOMODELS_IMPORT_DATA" description="COM_JOMODELS_IMPORT_DATA_DESC" />
+        <action name="core.batch" title="COM_JOMODELS_USE_BATCH" description="COM_JOMODELS_USE_BATCH_DESC" />
+        <action name="core.version" title="COM_JOMODELS_EDIT_VERSIONS" description="COM_JOMODELS_EDIT_VERSIONS_DESC" />
+        <action name="core.create" title="JACTION_CREATE" description="JACTION_CREATE_COMPONENT_DESC" />
+        <action name="core.delete" title="JACTION_DELETE" description="JACTION_DELETE_COMPONENT_DESC" />
+        <action name="core.edit" title="JACTION_EDIT" description="JACTION_EDIT_COMPONENT_DESC" />
+        <action name="core.edit.state" title="JACTION_EDITSTATE" description="JACTION_ACCESS_EDITSTATE_DESC" />
+        <action name="core.edit.own" title="JACTION_EDITOWN" description="JACTION_EDITOWN_COMPONENT_DESC" />
+        <action name="core.edit.created_by" title="COM_JOMODELS_EDIT_CREATED_BY" description="COM_JOMODELS_EDIT_CREATED_BY_DESC" />
+        <action name="core.edit.created" title="COM_JOMODELS_EDIT_CREATED_DATE" description="COM_JOMODELS_EDIT_CREATED_DATE_DESC" />
+        <action name="modl.access" title="COM_JOMODELS_MODLS_ACCESS" description="COM_JOMODELS_MODLS_ACCESS_DESC" />
+        <action name="modl.batch" title="COM_JOMODELS_MODLS_BATCH_USE" description="COM_JOMODELS_MODLS_BATCH_USE_DESC" />
+        <action name="modl.version" title="COM_JOMODELS_MODLS_EDIT_VERSION" description="COM_JOMODELS_MODLS_EDIT_VERSION_DESC" />
+        <action name="modl.export" title="COM_JOMODELS_MODLS_EXPORT" description="COM_JOMODELS_MODLS_EXPORT_DESC" />
+        <action name="modl.import" title="COM_JOMODELS_MODLS_IMPORT" description="COM_JOMODELS_MODLS_IMPORT_DESC" />
+        <action name="modl.submenu" title="COM_JOMODELS_MODLS_SUBMENU" description="COM_JOMODELS_MODLS_SUBMENU_DESC" />
+    </section>
+    <section name="modl">
+        <action name="core.edit" title="COM_JOMODELS_MODLS_EDIT" description="COM_JOMODELS_MODLS_EDIT_DESC" />
+        <action name="modl.version" title="COM_JOMODELS_MODLS_EDIT_VERSION" description="COM_JOMODELS_MODLS_EDIT_VERSION_DESC" />
+    </section>
+</access>

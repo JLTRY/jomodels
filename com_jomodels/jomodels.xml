@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="5.0" method="upgrade">
+	<name>COM_JOMODELS</name>
+	<creationDate>26th October, 2025</creationDate>
+	<author>Jean-Luc Tryoen</author>
+	<authorEmail>jltryoen@orange.fr</authorEmail>
+	<authorUrl>http://www.jltryoen.fr</authorUrl>
+	<copyright>Copyright (C) 2025. All Rights Reserved</copyright>
+	<license>GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html</license>
+	<version>1.0.3</version>
+	<description><![CDATA[
+		<h1>JO Models (v.1.0.3)</h1>
+		<div style="clear: both;"></div>
+		<p>Add the possibility to create Models, i.e. text contents, that can be included in articles with usage of tags like
+{model:warning}content here {/model:warning}
+or
+{model:img  img=|text=}</p>
+		<p>Created by <a href="http://www.jltryoen.fr" target="_blank">Jean-Luc Tryoen</a><br /><small>Development started 27th October, 2025</small></p>
+	]]></description>
+	<namespace path="src">JCB\Component\Jomodels</namespace>
+
+	<!-- Runs on install -->
+	<install>
+		<sql>
+			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+		</sql>
+	</install>
+
+	<!-- Runs on uninstall -->
+	<uninstall>
+		<sql>
+			<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+		</sql>
+	</uninstall>
+
+	<!-- Runs on install/uninstall/update -->
+	<scriptfile>JomodelsInstallerScript.php</scriptfile>
+
+	<media destination="com_jomodels" folder="media">
+		<filename>index.html</filename>
+		<folder>js</folder>
+		<folder>css</folder>
+		<folder>images</folder>
+	</media>
+
+	<!-- Update Schema -->
+	<update>
+		<schemas>
+			<schemapath type="mysql">sql/updates/mysql/</schemapath>
+		</schemas>
+	</update>
+
+	<files folder="site">
+		<filename>index.html</filename>
+		<folder>assets</folder>
+		<folder>forms</folder>
+		<folder>layouts</folder>
+		<folder>src</folder>
+		<folder>tmpl</folder>
+	</files>
+
+	<languages folder="site">
+		<language tag="en-GB">language/en-GB/en-GB.com_jomodels.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.com_jomodels.sys.ini</language>
+	</languages>
+
+	<administration>
+		<menu>COM_JOMODELS_MENU</menu>
+		<submenu>
+			<!-- Instead of link you can specify individual link attributes -->
+            <menu option="com_jomodels" view="jomodels">COM_JOMODELS_MENU_DASHBOARD</menu>
+            <menu option="com_jomodels" view="modls">COM_JOMODELS_MENU_MODLS</menu>
+		</submenu>
+		<files folder="admin">
+			<filename>access.xml</filename>
+			<filename>config.xml</filename>
+			<filename>index.html</filename>
+			<folder>assets</folder>
+			<folder>forms</folder>
+			<folder>layouts</folder>
+			<folder>presets</folder>
+			<folder>services</folder>
+			<folder>sql</folder>
+			<folder>src</folder>
+			<folder>tmpl</folder>
+		</files>
+
+		<languages folder="admin">
+			<language tag="en-GB">language/en-GB/en-GB.com_jomodels.ini</language>
+            <language tag="en-GB">language/en-GB/en-GB.com_jomodels.sys.ini</language>
+		</languages>
+
+	</administration>
+</extension>

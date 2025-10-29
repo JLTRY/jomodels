@@ -19,6 +19,7 @@ use Joomla\CMS\Log\Log;
 // phpcs:enable PSR1.Files.SideEffects
 
 define('PF_REGEX_SEARCH_PATTERN', "{model:%s");
+define('PF_REGEX_VARIABLEMODEL_PATTERN', "#{model:%s([^}]*)}#s");
 define('PF_REGEX_MODEL_PATTERN', "#{model:%s([^}]*)}#s");
 define('PF_REGEX_FULL_MODEL_PATTERN', "#{model:%s([^}]*)}(.*){/model:%s}#s");
 define('PF_REGEX_VARIABLE_PATTERN', "/%{[^|]+\|+([^}|]+)}/");
@@ -34,10 +35,10 @@ class JOModel
     public $name;
     public $prio;
     public $content;
-	function __construct( $name, $content, $metakey=COM_JOMODELS_MODEL_FULL)
-	{
-		$this->name = $name;
-		if (is_string($metakey)) {
+    function __construct( $name, $content, $metakey=COM_JOMODELS_MODEL_FULL)
+    {
+        $this->name = $name;
+        if (is_string($metakey)) {
             if (!strcmp($metakey, "PRIO1") || ($metakey == COM_JOMODELS_MODEL_NORMAL)) {
                 $this->prio = COM_JOMODELS_MODEL_NORMAL;
             }
@@ -47,18 +48,18 @@ class JOModel
          } else {
             $this->prio = $metakey;
         }
-		$this->content = str_replace("</pre>", "", str_replace("<pre>", "", $content));
-	}
+        $this->content = str_replace("</pre>", "", str_replace("<pre>", "", $content));
+    }
 }
 
 
 class JOFileModel extends JOModel
 {
-	function __construct( $name, $filepath)
-	{
-		$content = file_get_contents($filepath);
-		parent::__construct($name, $content);
-	}
+    function __construct( $name, $filepath)
+    {
+        $content = file_get_contents($filepath);
+        parent::__construct($name, $content);
+    }
 }
 
 class JOModelsHelper
@@ -68,33 +69,36 @@ class JOModelsHelper
     {
     }
     /**
-	* Function to insert model model
-	*
-	* @param $model : the model
-	* @param $params : paramters to replace
-	*/
-	private static function _model($allmodels, $model, $params)
-	{
-		$html_content = $model->content;
-		foreach($params as $param => $value) {
+    * Function to insert model model
+    *
+    * @param $model : the model
+    * @param $params : paramters to replace
+    */
+    private static function _model($allmodels, $model, $params)
+    {
+        $html_content = $model->content;
+        foreach($params as $param => $value) {
+            $html_content = preg_replace("/\|%{". $param . "[^}]*}/", "|". $value, $html_content);
+        }
+        foreach($params as $param => $value) {
             $html_content = preg_replace("/%{". $param . "[^}]*}/", $value, $html_content);
-		}
-		//sub models
-		foreach($allmodels  as $modeli) {
-			$searchexp = sprintf(PF_REGEX_SEARCH_PATTERN, $modeli->name);
-			if (! (strpos( $html_content, $searchexp) === false) ) {
-				JOModelsHelper::replaceModel($html_content, $allmodels, $modeli, $params);
-			}
-		}
-		//default variables
-		$matches= array();
+        }
+        //sub models
+        foreach($allmodels  as $modeli) {
+            $searchexp = sprintf(PF_REGEX_SEARCH_PATTERN, $modeli->name);
+            if (! (strpos( $html_content, $searchexp) === false) ) {
+                JOModelsHelper::replaceModel($html_content, $allmodels, $modeli, $params);
+            }
+        }
+        //default variables
+        $matches= array();
         if ($html_content) {
             while (preg_match(PF_REGEX_VARIABLE_PATTERN, $html_content, $matches)){
                 $html_content = preg_replace(PF_REGEX_VARIABLE_PATTERN, '\1', $html_content);
             }
         }
-		return $html_content;
-	}
+        return $html_content;
+    }
 
     public static function parseAttributes($string, &$retarray)
     {
@@ -114,11 +118,11 @@ class JOModelsHelper
     {
         $text = preg_replace_callback(sprintf(PF_REGEX_MODEL_PATTERN, $model->name, $model->name),
             function($matches) use ($topparams, $model, $allmodels){
-				$params = array_replace([], $topparams);
-				if (@$matches[1]) {
-					self::parseAttributes($matches[1], $params);
-				}
-				return self::_model($allmodels, $model, $params);
+                $params = array_replace([], $topparams);
+                if (@$matches[1]) {
+                    self::parseAttributes($matches[1], $params);
+                }
+                return self::_model($allmodels, $model, $params);
             }, $text);
     }
 
@@ -127,37 +131,37 @@ class JOModelsHelper
     {
         $text = preg_replace_callback(sprintf(PF_REGEX_FULL_MODEL_PATTERN, $model->name, $model->name),
             function($matches) use ($topparams, $model, $allmodels){
-				$params = array_replace([], $topparams);
-				if (@$matches[1]) {
-					self::parseAttributes($matches[1], $params);
-				}
+                $params = array_replace([], $topparams);
+                if (@$matches[1]) {
+                    self::parseAttributes($matches[1], $params);
+                }
                 if (@$matches[2]) {
                     $params['content'] = $matches[2];
                 }
-				return self::_model($allmodels, $model, $params);
+                return self::_model($allmodels, $model, $params);
             }, $text);
     }
 
     public static function replaceModels(&$text, $allmodels)
     {
         foreach($allmodels  as $model) {
-			if (! strcmp($model->prio, COM_JOMODELS_MODEL_NORMAL)) {
-				$params= array("ROOTURI" =>Uri::root());
-				$searchexp = sprintf(PF_REGEX_SEARCH_PATTERN, $model->name);
-				if (! (strpos( $text, $searchexp) === false) ){
-					self::replaceModel($text, $allmodels, $model, $params);
-				}
-			}
-		}
-		foreach($allmodels  as $model) {
-			if (! strcmp($model->prio, COM_JOMODELS_MODEL_FULL)) {
-				$params= array("ROOTURI" =>Uri::root() );
-				$searchexp = sprintf(PF_REGEX_SEARCH_PATTERN, $model->name);
-				if (! (strpos( $text, $searchexp) === false) ){
-					self::replaceFullModel($text, $allmodels, $model, $params);
-				}
-			}
-		}
+            if (! strcmp($model->prio, COM_JOMODELS_MODEL_NORMAL)) {
+                $params= array("ROOTURI" =>Uri::root());
+                $searchexp = sprintf(PF_REGEX_SEARCH_PATTERN, $model->name);
+                if (! (strpos( $text, $searchexp) === false) ){
+                    self::replaceModel($text, $allmodels, $model, $params);
+                }
+            }
+        }
+        foreach($allmodels  as $model) {
+            if (! strcmp($model->prio, COM_JOMODELS_MODEL_FULL)) {
+                $params= array("ROOTURI" =>Uri::root() );
+                $searchexp = sprintf(PF_REGEX_SEARCH_PATTERN, $model->name);
+                if (! (strpos( $text, $searchexp) === false) ){
+                    self::replaceFullModel($text, $allmodels, $model, $params);
+                }
+            }
+        }
     }
 }
 

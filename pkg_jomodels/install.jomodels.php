@@ -77,7 +77,7 @@ class pkg_JoFacebookInstallerScript implements InstallerScriptInterface
         $app = Factory::getApplication();
         // Load the installation language
         $lang = $app->getLanguage();
-        $lang->load('pkg_jofacebook.sys', dirname(__FILE__), 'en-GB');
+        $lang->load('pkg_jomodels.sys', dirname(__FILE__), 'en-GB');
         return true;
     }
 

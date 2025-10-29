@@ -19,7 +19,7 @@
     </files>
     <languages>
         <language tag="en-GB">language/en-GB/en-GB.pkg_jomodels.sys.ini</language>
-        <language tag="fr-FR">language/fr-FR/fr-FR.pkg_jofacebook.sys.ini</language>
+        <language tag="fr-FR">language/fr-FR/fr-FR.pkg_jomodels.sys.ini</language>
     </languages>
 
     <updateservers>

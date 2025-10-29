@@ -38,23 +38,23 @@ function test() {
 ""),
     new JOModel("githublink", 
     '<pre>&nbsp;<a href="%{link|/}" title="%{text|%{link}}"><img src="%{ROOTURI}/images/github.webp" width="%{width|20}">%{text|%{link}}</a></pre>',
-    JOModel::_PRIO1),
+    COM_JOMODELS_MODEL_NORMAL),
     new JOModel("weblink", 
     '<pre>&nbsp;<a href="%{link|/}" title="%{text|%{link}}"><img src="%{ROOTURI}//images/web_link.png" width="%{width|20}" />%{text|%{link}}</a></pre>',
-    JOModel::_PRIO1)
+    COM_JOMODELS_MODEL_NORMAL)
    ];
     foreach (glob( JPATH_ROOT . '/files/jocodes/' . '*.tmpl') as $file)
-	{
-		$splitar = preg_split("/\./", basename($file));
-		$allmodels[] = new JOFileModel($splitar[0], $file);
-	}
+    {
+        $splitar = preg_split("/\./", basename($file));
+        $allmodels[] = new JOFileModel($splitar[0], $file);
+    }
     $alltext=
     [//"<p>The release is available on github.{model:githublink |link=https://github.com/jmcameron/attachments|text=attachments}</p>",
    /*  '{model:warning}<p class="web-jck">
     {model:weblink link=http://alexgorbatchev.com/SyntaxHighlighter/|text=SyntaxHighlighter/}
 <p>&nbsp;Le site n\'existe plus. Le plugin n\'utilise que du javascript, contrairement à la famile <b>geshi</b> qui elle utilise du php.</p>
 <p>Le site ne fonctionne pas très bien.</p>{/model:warning}', */
-'<p>{model:warning}Attention à bien placer xml:lang juste après la balise pre!!!{/model:warning}</p>
+/* '<p>{model:warning}Attention à bien placer xml:lang juste après la balise pre!!!{/model:warning}</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <h3>Site github</h3>
@@ -63,7 +63,9 @@ function test() {
 <p>J\'ai décidé de créer un nouveau plugin hébergé aussi sur github</p>
 <p>{model:githublink link=https://github.com/JLTRY/jocodehighlight}</p>
 <p>&nbsp;</p>
-<p>&nbsp;<span class="hide_attachments_token">{attachments}</span></p>'];
+<p>&nbsp;<span class="hide_attachments_token">{attachments}</span></p>']; */
+"<p>{model:weblink |text=JO's Code Highlighter|link=https://extensions.joomla.org/extension/jo-s-code-highlighter}</p>"
+];
     foreach ($alltext as $text) {
         JOModelsHelper::replaceModels($text, $allmodels);
         echo $text;
