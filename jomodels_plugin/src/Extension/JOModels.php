@@ -63,15 +63,17 @@ class JOModels extends CMSPlugin implements SubscriberInterface
         // In Joomla 4 a generic Event is passed
         // In Joomla 5 a concrete ContentPrepareEvent is passed
         [$context, $row, $params, $page] = array_values($event->getArguments());
+        if ($context == 'com_jomodels.jomodels.text') return;
         JOModelsHelper::init();
+        Log::add("OnContentPrepare $context", Log::DEBUG, "jomodels");
         if (!count($this->allmodels)) {
             foreach (glob( JPATH_ROOT . '/files/jocodes/' . '*.tmpl') as $file)
             {
                 $splitar = preg_split("/\./", basename($file));
-                $this->allmodels[] = new JOFileModel($splitar[0], $file);
+                $this->allmodels[$splitar[0]] = new JOFileModel($splitar[0], $file);
             }
             //retrieves all articles of "models" category
-            $catId = $this->params->get('catid');
+            /*$catId = $this->params->get('catid');
             if ($catId) {
                 $factory = Factory::getApplication()->bootComponent('com_content')->getMVCFactory();
                 // Get an instance of the generic articles model
@@ -82,9 +84,9 @@ class JOModels extends CMSPlugin implements SubscriberInterface
                 $jarticles->setState('filter.published', 1);
                 $articles= $jarticles->getItems();
                 foreach ($articles as $article) {
-                    $this->allmodels[] = new JOModel($article->alias, $article->introtext, $article->metakey);
+                    $this->allmodels[$article->alias] = new JOModel($article->alias, $article->introtext, $article->metakey);
                 }
-            }
+            }*/
             //retrieves all Models
             $factory = Factory::getApplication()->bootComponent('com_jomodels')->getMVCFactory();
             if ($factory) {
@@ -93,15 +95,15 @@ class JOModels extends CMSPlugin implements SubscriberInterface
                 $jarticles->setState('params', $appParams);
                 $jarticles->setState('filter.published', 1);
                 $articles = $jarticles->getItems();
-                Log::add("articles found ".print_r($articles, true), Log::DEBUG, "webt");
+                Log::add("articles found ".print_r($articles, true), Log::DEBUG, "jomodels");
                 foreach ($articles as $article) {
-                    $this->allmodels[] = new JOModel($article->alias, $article->text, $article->type);
+                    $this->allmodels[$article->alias] = new JOModel($article->alias, $article->text, $article->type);
                 }
             }
             else {
-                 Log::add("no factory found ", Log::DEBUG, "webt");
+                 Log::add("no factory found ", Log::DEBUG, "jomodels");
             }
-            Log::add("models found ".print_r($this->allmodels, true), Log::DEBUG, "webt");
+            Log::add("models found ".print_r($this->allmodels, true), Log::DEBUG, "jomodels");
         }
         JOModelsHelper::replaceModels($row->text, $this->allmodels); 
     }

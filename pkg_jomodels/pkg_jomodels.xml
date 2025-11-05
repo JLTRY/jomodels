@@ -2,7 +2,7 @@
 <extension type="package" version="4.0" method="upgrade">
     <name>PKG_JOMODELS</name>
     <packagename>jomodels</packagename>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <creationDate>October 26, 2025</creationDate>
     <copyright>(C) 2025-2025 JL TRYOEN. All rights reserved.</copyright>
     <license>https://www.gnu.org/licenses/gpl-3.0.html GNU/GPL</license>
@@ -11,7 +11,7 @@
     <authorUrl>https://github.com/JLTRY/plg_jofacebook</authorUrl>
     <packager>JL TRYOEN</packager>
     <packagerurl>https://github.com/JLTRY/plg_jofacebook</packagerurl>
-    <description>PKG_JOFACEBOOK_DESCRIPTION</description>
+    <description>PKG_JOMODELS_DESCRIPTION</description>
     <scriptfile>install.jomodel.php</scriptfile>
     <files folder="packages">
         <file type="plugin" id="jomodels" group="content">jomodels_plugin.zip</file>
