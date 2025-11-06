@@ -61,7 +61,7 @@ COM_JOMODELS_FULL),
     '<pre>&nbsp;<a href="https://extensions.joomla.org/extension/%{link|/}" title="%{text|%{link}}"><img src="https://extensions.joomla.org/templates/joomla/favicon.ico" width="%{width|20}">%{text|%{link}}</a></pre>',
     COM_JOMODELS_NORMAL),
     "githublink" => new JOModel("githublink", 
-    '<pre>&nbsp;<a href="%{link|/}" title="%{text|%{link}}"><img src="%{ROOTURI}/images/github.webp" width="%{width|20}">%{text|%{link}}</a></pre>',
+    '<pre>&nbsp;<a href="https://github.com/%{link|/}" title="%{text|%{link}}"><img src="%{ROOTURI}/images/github.webp" width="%{width|20}" />%{text|%{link}}</a></pre>',
     COM_JOMODELS_NORMAL),
     "weblink" => new JOModel("weblink", 
     '<pre>&nbsp;<a href="%{link|/}" title="%{text|%{link}}"><img src="%{ROOTURI}/images/web_link.png" width="%{width|20}" />%{text|%{link}}</a></pre>',
@@ -132,7 +132,10 @@ COM_JOMODELS_FULL),
     {model:weblink link=http://alexgorbatchev.com/SyntaxHighlighter/|text=SyntaxHighlighter/}
 <p>&nbsp;Le site n\'existe plus. Le plugin n\'utilise que du javascript, contrairement à la famile <b>geshi</b> qui elle utilise du php.</p>
 <p>Le site ne fonctionne pas très bien.</p>{/model:warning}'*/
-'{jomodel:readmorewiki article="Docker" text="Docker"}'
+//'{jomodel:readmorewiki article="Docker" text="Docker"}',
+//'{jomodel:githublink link="jmcameron/attachments" text="attachments"}',
+//'{jomodel:githublink link=jmcameron/attachments|text=attachments}'
+'<p>{model:warning}Attention à bien placer xml:lang juste après la balise pre!!!{/model:warning}</p>'
 ];
     foreach ($alltext as $text) {
         JOModelsHelper::replaceModels($text, $allmodels);

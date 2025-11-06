@@ -21,10 +21,9 @@ use Joomla\CMS\Log\Log;
 
 define('PF_REGEX_MODEL_SEARCH_PATTERN', "{model:%s");
 define('PF_REGEX_JOMODEL_SEARCH_PATTERN', "{jomodel:%s");
-define('PF_REGEX_MODEL_PATTERN', "#{model:%s\s?([^}]*?)}#s");
-define('PF_REGEX_MODEL_FULL_PATTERN', "#{model:%s([^}]*)}(.*?){/model:%s}#si");
-define('PF_REGEX_JOMODEL_PATTERN', "#{jomodel:%s\s?((?:[a-zA-Z0-9_-]*=\"[^\"].*?\")*)}#s");
-define('PF_REGEX_JOMODEL_FULL_PATTERN', "#{jomodel:%s\s?((?:[a-zA-Z0-9_-]*=\"[^\"].*?\")*)}(.*?){/jomodel:%s}#si");
+define('PF_REGEX_VARIABLES', '((?:\s?[a-zA-Z0-9_-]+=\"[^\"]+\")+|(?:\|?[a-zA-Z0-9_-]+=[^\"}]+)+|(?:\s*))');
+define('PF_REGEX_JOMODEL_PATTERN', "#{(?:jo)?model:%s\s?" . PF_REGEX_VARIABLES ."\s*}#s");
+define('PF_REGEX_JOMODEL_FULL_PATTERN', "#{(?:jo)?model:%s\s?" . PF_REGEX_VARIABLES ."\s*}(.*?){/(?:jo)?model:%s}#s");
 define('PF_REGEX_DEFAULT_VARIABLE_PATTERN', "/%{[^|}]+\|+([^}|]+)}/");
 define('PF_REGEX_VARIABLE_PATTERN', "/%{([^}]*?)}/");
 define('PF_REGEX_SUBMODEL_PATTERN', "#{model\:(?P<key>[a-zA-Z0-9_-]*)\s*#s");
@@ -176,17 +175,15 @@ class JOModelsHelper
                 if (! (strpos( $text, $searchexp) === false) ||
                     ! (strpos( $text, $josearchexp) === false) )
                 {
-                    //Log::add('replaceModels:=>:'. $name, Log::WARNING, 'jomodels');
+                    //Log::add('replaceModels:=>:'. $name . ":" . $text, Log::WARNING, 'jomodels');
                     if ( $model->prio == COM_JOMODELS_NORMAL ) {
-                        self::replaceModel(sprintf(PF_REGEX_JOMODEL_PATTERN, $model->name, $model->name), $text, $allmodels, $model, $params);
-                        self::replaceModel(sprintf(PF_REGEX_MODEL_PATTERN, $model->name, $model->name), $text, $allmodels, $model, $params);
+                        self::replaceModel(sprintf(PF_REGEX_JOMODEL_PATTERN, $model->name), $text, $allmodels, $model, $params);
                     }
                     if ( $model->prio == COM_JOMODELS_FULL) {
                         self::replaceModel(sprintf(PF_REGEX_JOMODEL_FULL_PATTERN, $model->name, $model->name), $text, $allmodels, $model, $params);
-                         self::replaceModel(sprintf(PF_REGEX_MODEL_FULL_PATTERN, $model->name, $model->name), $text, $allmodels, $model, $params);
                     }
                     $submodels = array_merge($model->allmodels, $submodels);
-                    //Log::add('replaceModels:<=:'. $name, Log::WARNING, 'jomodels');
+                    //Log::add('replaceModels:<=:'. $name . ":" . $text, Log::WARNING, 'jomodels');
                 }
             }
         }
