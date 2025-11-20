@@ -143,7 +143,7 @@ class JOModelsHelper
         $text = preg_replace_callback($regexp,
             function($matches) use ($topparams, $model, $allmodels){
                 if (@$matches[1]) {
-                    if ( strpos( $matches[1], "\"") == false ) {
+                    if ( strpos( $matches[1], "\"") === false ) {
                         $localparams = array();
                         self::parseAttributes($matches[1], $localparams);
                     } else {

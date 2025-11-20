@@ -23,7 +23,7 @@
     </languages>
 
     <updateservers>
-       <server type="extension" priority="1" name="JO's Models updates">https://raw.githubusercontent.com/JLTRY/jomodels/master/pkg_jomodels/pkg_jomodels-update_pkg.xml</server>
+       <server type="extension" priority="1" name="JO's Models updates">https://raw.githubusercontent.com/JLTRY/jomodels/master/pkg_jomodels/update_pkg.xml</server>
     </updateservers>
 
 </extension>
