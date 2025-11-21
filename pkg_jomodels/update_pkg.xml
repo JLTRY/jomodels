@@ -6,10 +6,10 @@
 		<element>jomodels</element>
 		<type>plugin</type>
 		<client>site</client>
-		<version>1.0.2</version>
+		<version>1.0.3</version>
 		<infourl title="JO's Favorites">http://www.jltryoen.fr</infourl>
 		<downloads>
-			<downloadurl type="full" format="zip">https://github.com/JLTRY/jocodehighlight/releases/download/v1.0.2/jofavorites-1.0.2.zip</downloadurl>
+			<downloadurl type="full" format="zip">https://github.com/JLTRY/jocodehighlight/releases/download/v1.0.3/jofavorites-1.0.3.zip</downloadurl>
 		</downloads>
 		<tags>
 			<tag>Stable</tag>
@@ -18,9 +18,9 @@
 		<maintainerurl>http://www.jltryoen.fr</maintainerurl>
 		<php_minimum>8.0</php_minimum>
 		<targetplatform name="joomla" version="(4\.[01234]|5\.[01234])"/>
-		<sha256>C2E5A35B339D8842264E0A87EDDB24C3BCEE80151517FFCF898F964CB1ED68CD</sha256>
-		<sha384>3109938BF50BA6ABFB33730AF81D53F0AEB16E22B5BDAE8B95636AE310E0969060B20C7111952E560A0B18B7DC7478A6</sha384>
-		<sha512>93FD041DDFCC6522C7393D1C596A6E53801AD2BBB11C3C7C8FB69A8770438175D80232A0C7D64DCBFA3CA8F1420B82063D891E01AA7A83CBDEACAD510E9A17B1</sha512>
+		<sha256>297B657357E0618059102A175F6424BB855932997BB12C8594C49C822B924664</sha256>
+		<sha384>E028DAB075760858DB6C98841985F3A31E8E2F5CC878E194220E9FE35BD2187488523021B045FF8FB27E8D21F60287BB</sha384>
+		<sha512>3AD763820122584B427DD750F1EF367D9C6B67E7E983D189D82433B67B2DE3968411E826D2414DEE70961FEE4DED57EF805CEBD61C0FCDE89BC1F7DB913C357B</sha512>
 	</update>
 </updates>
 

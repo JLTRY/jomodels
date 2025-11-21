@@ -7,9 +7,9 @@
 	<authorUrl>http://www.jltryoen.fr</authorUrl>
 	<copyright>Copyright (C) 2025. All Rights Reserved</copyright>
 	<license>GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html</license>
-	<version>1.0.2</version>
+	<version>1.0.3</version>
 	<description><![CDATA[
-		<h1>JO Models (v.1.0.2)</h1>
+		<h1>JO Models (v.1.0.3)</h1>
 		<div style="clear: both;"></div>
 		<p>Add the possibility to create Models, i.e. text contents, that can be included in articles with usage of tags like
 {model:warning}content here {/model:warning}
