@@ -11,10 +11,12 @@ Joomla 5.0+
 ## Features
 See https://joomla.jltryoen.fr/extensions-joomla/plugins/autre/234-jos-models
 
+This extension allows to incude specific paramerized models in articles
+The models includes html tag and/or sub-models and can be configured through an editor
+
 The package includes a component (helper), and 1 plugin
 - component_jomodels
-- content/jofbkpost : a plugin to be able to add Facebook posts in an article
-- content/jomodels  : a plugin that enables the insertion of a "model" with specific parametres in an article
+- content/jomodels  : a plugin that enables the insertion of a "model" with specific parameters in an article
 
 ## Example
 
