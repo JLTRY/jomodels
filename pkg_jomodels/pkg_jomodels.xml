@@ -12,7 +12,7 @@
     <packager>JL TRYOEN</packager>
     <packagerurl>https://github.com/JLTRY/plg_jofacebook</packagerurl>
     <description>PKG_JOMODELS_DESCRIPTION</description>
-    <scriptfile>install.jomodel.php</scriptfile>
+    <scriptfile>install.jomodels.php</scriptfile>
     <files folder="packages">
         <file type="plugin" id="jomodels" group="content">jomodels_plugin.zip</file>
         <file type="component" id="com_jomodels">com_jomodels.zip</file>

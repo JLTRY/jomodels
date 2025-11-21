@@ -19,7 +19,7 @@ NAMES = $(INSTALLS) $(EXTRAS)
 
 ZIPS = $(NAMES:=.zip)
 
-ZIPIGNORES = -x "*.git*" -x "*.svn*" -x Makefile -x "*.sh"
+ZIPIGNORES = -x "*.git*" -x "*.svn*" -x Makefile -x "*.sh" -x "tests/*"
 
 parts: $(ZIPS)
 
