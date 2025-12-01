@@ -90,6 +90,10 @@ COM_JOMODELS_FULL),
       new JOModel("intralink", 
      '<pre>&nbsp;<a href="%{link|/}" title="%{text|%{link}}"> 
     <img src="/images/favicon.ico" width="%{width|20}" />%{text|%{link}}</a></pre>',
+    COM_JOMODELS_NORMAL),
+     "bracket" =>
+      new JOModel("bracket", 
+     '&#123;',
     COM_JOMODELS_NORMAL)
    ];
    
@@ -135,7 +139,8 @@ COM_JOMODELS_FULL),
 //'{jomodel:readmorewiki article="Docker" text="Docker"}',
 //'{jomodel:githublink link="jmcameron/attachments" text="attachments"}',
 //'{jomodel:githublink link=jmcameron/attachments|text=attachments}'
-'<p>{model:warning}Attention à bien placer xml:lang juste après la balise pre!!!{/model:warning}</p>'
+    '<p>{model:warning}Attention à bien placer xml:lang juste après la balise pre!!!{/model:warning}</p>',
+    '{model:bracket}'
 ];
     foreach ($alltext as $text) {
         JOModelsHelper::replaceModels($text, $allmodels);

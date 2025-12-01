@@ -19,15 +19,15 @@ use Joomla\CMS\Log\Log;
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
-define('PF_REGEX_MODEL_SEARCH_PATTERN', "{model:%s");
-define('PF_REGEX_JOMODEL_SEARCH_PATTERN', "{jomodel:%s");
-define('PF_REGEX_VARIABLES', '((?:\s?[a-zA-Z0-9_-]+=\"[^\"]+\")+|(?:\|?[a-zA-Z0-9_-]+=[^\"}]+)+|(?:\s*))');
-define('PF_REGEX_JOMODEL_PATTERN', "#{(?:jo)?model:%s\s?" . PF_REGEX_VARIABLES ."\s*}#s");
-define('PF_REGEX_JOMODEL_FULL_PATTERN', "#{(?:jo)?model:%s\s?" . PF_REGEX_VARIABLES ."\s*}(.*?){/(?:jo)?model:%s}#s");
-define('PF_REGEX_DEFAULT_VARIABLE_PATTERN', "/%{[^|}]+\|+([^}|]+)}/");
-define('PF_REGEX_VARIABLE_PATTERN', "/%{([^}]*?)}/");
-define('PF_REGEX_SUBMODEL_PATTERN', "#{model\:(?P<key>[a-zA-Z0-9_-]*)\s*#s");
-define('PF_REGEX_SUBJOMODEL_PATTERN', "#{jomodel\:(?P<key>[a-zA-Z0-9_-]*)\s*#s");
+define('JM_REGEX_MODEL_SEARCH_PATTERN', "{model:%s");
+define('JM_REGEX_JOMODEL_SEARCH_PATTERN', "{jomodel:%s");
+define('JM_REGEX_VARIABLES', '((?:\s?[a-zA-Z0-9_-]+=\"[^\"]+\")+|(?:\|?[a-zA-Z0-9_-]+=[^\"}]+)+|(?:\s*))');
+define('JM_REGEX_JOMODEL_PATTERN', "#{(?:jo)?model:%s\s?" . JM_REGEX_VARIABLES ."\s*}#s");
+define('JM_REGEX_JOMODEL_FULL_PATTERN', "#{(?:jo)?model:%s\s?" . JM_REGEX_VARIABLES ."\s*}(.*?){/(?:jo)?model:%s}#s");
+define('JM_REGEX_DEFAULT_VARIABLE_PATTERN', "/%{[^|}]+\|+([^}|]+)}/");
+define('JM_REGEX_VARIABLE_PATTERN', "/%{([^}]*?)}/");
+define('JM_REGEX_SUBMODEL_PATTERN', "#{model\:(?P<key>[a-zA-Z0-9_-]*)\s*#s");
+define('JM_REGEX_SUBJOMODEL_PATTERN', "#{jomodel\:(?P<key>[a-zA-Z0-9_-]*)\s*#s");
 
 define('COM_JOMODELS_NORMAL', 1);
 define('COM_JOMODELS_FULL', 0);
@@ -44,10 +44,10 @@ class JOModel
     public $allmodels;
     
     function extractmodel($template, &$vars) {
-        \preg_replace_callback(PF_REGEX_SUBMODEL_PATTERN, function($match) use(&$vars){
+        \preg_replace_callback(JM_REGEX_SUBMODEL_PATTERN, function($match) use(&$vars){
             $vars[] = $match["key"];
         }, $template);
-         \preg_replace_callback(PF_REGEX_SUBJOMODEL_PATTERN, function($match) use(&$vars){
+         \preg_replace_callback(JM_REGEX_SUBJOMODEL_PATTERN, function($match) use(&$vars){
             $vars[] = $match["key"];
         }, $template);
     }
@@ -98,7 +98,7 @@ class JOModelsHelper
         $html_content = $model->content;
         foreach($params as $param => $value) {
             if ( !(strpos($value,"%{") === false)) {
-                $params[$param] = preg_replace_callback(PF_REGEX_VARIABLE_PATTERN,
+                $params[$param] = preg_replace_callback(JM_REGEX_VARIABLE_PATTERN,
                     function($matches) use ($params){
                         if (@$matches[1] && array_key_exists($matches[1], $params)) {
                             return($params[$matches[1]]);
@@ -117,8 +117,8 @@ class JOModelsHelper
         //default variables
         $matches= array();
         if ($html_content) {
-            while (preg_match(PF_REGEX_DEFAULT_VARIABLE_PATTERN, $html_content, $matches)){
-                $html_content = preg_replace(PF_REGEX_DEFAULT_VARIABLE_PATTERN, '\1', $html_content);
+            while (preg_match(JM_REGEX_DEFAULT_VARIABLE_PATTERN, $html_content, $matches)){
+                $html_content = preg_replace(JM_REGEX_DEFAULT_VARIABLE_PATTERN, '\1', $html_content);
             }
         }
         return $html_content;
@@ -170,20 +170,21 @@ class JOModelsHelper
         foreach($allmodels  as $name => $model) {
             if (($filter == null) || in_array($name, $filter)) {
                 $params= array("ROOTURI" =>Uri::root());
-                $searchexp = sprintf(PF_REGEX_MODEL_SEARCH_PATTERN, $model->name);
-                $josearchexp = sprintf(PF_REGEX_JOMODEL_SEARCH_PATTERN, $model->name);
+                $searchexp = sprintf(JM_REGEX_MODEL_SEARCH_PATTERN, $model->name);
+                $josearchexp = sprintf(JM_REGEX_JOMODEL_SEARCH_PATTERN, $model->name);
+                Log::add('replaceModels ?:=>:'. $name . ":" . $searchexp, Log::WARNING, 'jomodels');
                 if (! (strpos( $text, $searchexp) === false) ||
                     ! (strpos( $text, $josearchexp) === false) )
                 {
-                    //Log::add('replaceModels:=>:'. $name . ":" . $text, Log::WARNING, 'jomodels');
+                    Log::add('replaceModels:=>:' . $text, Log::WARNING, 'jomodels');
                     if ( $model->prio == COM_JOMODELS_NORMAL ) {
-                        self::replaceModel(sprintf(PF_REGEX_JOMODEL_PATTERN, $model->name), $text, $allmodels, $model, $params);
+                        self::replaceModel(sprintf(JM_REGEX_JOMODEL_PATTERN, $model->name), $text, $allmodels, $model, $params);
                     }
                     if ( $model->prio == COM_JOMODELS_FULL) {
-                        self::replaceModel(sprintf(PF_REGEX_JOMODEL_FULL_PATTERN, $model->name, $model->name), $text, $allmodels, $model, $params);
+                        self::replaceModel(sprintf(JM_REGEX_JOMODEL_FULL_PATTERN, $model->name, $model->name), $text, $allmodels, $model, $params);
                     }
                     $submodels = array_merge($model->allmodels, $submodels);
-                    //Log::add('replaceModels:<=:'. $name . ":" . $text, Log::WARNING, 'jomodels');
+                    Log::add('replaceModels:<=:'. $text, Log::WARNING, 'jomodels');
                 }
             }
         }
