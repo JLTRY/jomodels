@@ -19,9 +19,6 @@
 	<media destination="../files/jomodels">
 		<file>img.tmpl</file>
 	</media>
-    <updateservers>
-       <server type="extension" priority="1" name="JO's Models Updates">https://raw.githubusercontent.com/JLTRY/jomodels/master/jomodels-update.xml</server>
-    </updateservers>
     <config>
 		<fields name="params">
             <fieldset name="basic">
