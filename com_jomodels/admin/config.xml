@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
 	<fieldset
-        addruleprefix="JCB\Component\Jomodels\Administrator\Rule"
-        addfieldprefix="JCB\Component\Jomodels\Administrator\Field"
+        addruleprefix="JLTRY\Component\Jomodels\Administrator\Rule"
+        addfieldprefix="JLTRY\Component\Jomodels\Administrator\Field"
         name="global_config"
         label="COM_JOMODELS_CONFIG_GLOBAL_LABEL"
         description="COM_JOMODELS_CONFIG_GLOBAL_DESC">

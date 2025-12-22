@@ -3,7 +3,7 @@
                 JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-    @version		1.0.3
+    @version		1.0.5
     @build			26th October, 2025
     @created		27th October, 2025
     @package		JO Models
@@ -17,7 +17,7 @@
 \____) (_____)(_____)(_/\/\_)(____)(__)(__)   \___)(_____)(_/\/\_)(__)  (_____)(_)\_)(____)(_)\_) (__) 
 
 /------------------------------------------------------------------------------------------------------*/
-namespace JCB\Component\Jomodels\Administrator\View\Modls;
+namespace JLTRY\Component\Jomodels\Administrator\View\Modls;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -33,9 +33,10 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Document\Document;
-use JCB\Component\Jomodels\Administrator\Helper\JomodelsHelper;
-use JCB\Joomla\Utilities\ArrayHelper;
-use JCB\Joomla\Utilities\StringHelper;
+use JLTRY\Component\Jomodels\Administrator\Helper\JomodelsHelper;
+use JLTRY\Joomla\Jomodels\Utilities\Permitted\Actions;
+use JLTRY\Joomla\Utilities\StringHelper;
+use Joomla\CMS\Toolbar\Button\DropdownButton;
 
 // No direct access to this file
 \defined('_JEXEC') or die;
@@ -129,6 +130,46 @@ class HtmlView extends BaseHtmlView
     public User $user;
 
     /**
+     * The Can Edit permission
+     *
+     * @var    ?bool
+     * @since  5.2.1
+     */
+    public ?bool $canEdit = null;
+
+    /**
+     * The Can Edit State permission
+     *
+     * @var    ?bool
+     * @since  5.2.1
+     */
+    public ?bool $canState = null;
+
+    /**
+     * The Can Create permission
+     *
+     * @var    ?bool
+     * @since  5.2.1
+     */
+    public ?bool $canCreate = null;
+
+    /**
+     * The Can Delete permission
+     *
+     * @var    ?bool
+     * @since  5.2.1
+     */
+    public ?bool $canDelete = null;
+
+    /**
+     * The Can Batch permission
+     *
+     * @var    ?bool
+     * @since  5.2.1
+     */
+    public ?bool $canBatch = null;
+
+    /**
      * Modls view display method
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -144,6 +185,7 @@ class HtmlView extends BaseHtmlView
         $this->items = $model->getItems();
         $this->pagination = $model->getPagination();
         $this->state = $model->getState();
+        $this->isEmptyState = $model->getIsEmptyState();
         $this->styles = $model->getStyles();
         $this->scripts = $model->getScripts();
         $this->user ??= $this->getCurrentUser();
@@ -157,8 +199,8 @@ class HtmlView extends BaseHtmlView
         $this->saveOrder = $this->listOrder == 'a.ordering';
         // set the return here value
         $this->return_here = urlencode(base64_encode((string) Uri::getInstance()));
-        // get global action permissions
-        $this->canDo = JomodelsHelper::getActions('modl');
+        // get the permitted actions the current user can do
+        $this->canDo = Actions::get('modl');
         $this->canEdit = $this->canDo->get('core.edit');
         $this->canState = $this->canDo->get('core.edit.state');
         $this->canCreate = $this->canDo->get('core.create');
@@ -166,7 +208,7 @@ class HtmlView extends BaseHtmlView
         $this->canBatch = ($this->canDo->get('modl.batch') && $this->canDo->get('core.batch'));
 
         // If we don't have items we load the empty state
-        if (is_array($this->items) && !count((array) $this->items) && $this->isEmptyState = $model->getIsEmptyState())
+        if (is_array($this->items) && !count((array) $this->items) && $this->isEmptyState)
         {
             $this->setLayout('emptystate');
         }
@@ -196,44 +238,58 @@ class HtmlView extends BaseHtmlView
      * Add the page title and toolbar.
      *
      * @return  void
+     * @throws  \Exception
      * @since   1.6
      */
     protected function addToolbar(): void
     {
         ToolbarHelper::title(Text::_('COM_JOMODELS_MODLS'), 'joomla');
-
+        /** @var  Toolbar $toolbar */
+        $toolbar = $this->getDocument()->getToolbar();
         if ($this->canCreate)
         {
-            ToolbarHelper::addNew('modl.add');
+            $toolbar->addNew('modl.add');
         }
 
         // Only load if there are items
-        if (ArrayHelper::check($this->items))
+        if (!$this->isEmptyState)
         {
+            /** @var  DropdownButton $dropdown */
+            $dropdown = $toolbar->dropdownButton('status-group')
+                ->text('JTOOLBAR_CHANGE_STATUS')
+                ->toggleSplit(false)
+                ->icon('icon-ellipsis-h')
+                ->buttonClass('btn btn-action')
+                ->listCheck(true);
+
+            $childBar = $dropdown->getChildToolbar();
+
             if ($this->canEdit)
             {
-                ToolbarHelper::editList('modl.edit');
+                $childBar->edit('modl.edit')->listCheck(true);
             }
 
             if ($this->canState)
             {
-                ToolbarHelper::publishList('modls.publish');
-                ToolbarHelper::unpublishList('modls.unpublish');
-                ToolbarHelper::archiveList('modls.archive');
+                $childBar->publish('modls.publish')->listCheck(true);
+                $childBar->unpublish('modls.unpublish')->listCheck(true);
+                $childBar->archive('modls.archive')->listCheck(true);
 
                 if ($this->canDo->get('core.admin'))
                 {
-                    ToolbarHelper::checkin('modls.checkin');
+                    $childBar->checkin('modls.checkin')->listCheck(true);
                 }
-            }
 
-            if ($this->state->get('filter.published') == -2 && ($this->canState && $this->canDelete))
-            {
-                ToolbarHelper::deleteList('', 'modls.delete', 'JTOOLBAR_EMPTY_TRASH');
-            }
-            elseif ($this->canState && $this->canDelete)
-            {
-                ToolbarHelper::trash('modls.trash');
+                if ($this->state->get('filter.published') == -2 && $this->canDelete)
+                {
+                    $toolbar->delete('modls.delete', 'JTOOLBAR_DELETE_FROM_TRASH')
+                        ->message('JGLOBAL_CONFIRM_DELETE')
+                        ->listCheck(true);
+                }
+                elseif ($this->canDelete)
+                {
+                    $childBar->trash('modls.trash')->listCheck(true);
+                }
             }
         }
 
@@ -241,13 +297,13 @@ class HtmlView extends BaseHtmlView
         $this->help_url = JomodelsHelper::getHelpUrl('modls');
         if (StringHelper::check($this->help_url))
         {
-            ToolbarHelper::help('COM_JOMODELS_HELP_MANAGER', false, $this->help_url);
+            $toolbar->help('COM_JOMODELS_HELP_MANAGER', false, $this->help_url);
         }
 
         // add the options comp button
         if ($this->canDo->get('core.admin') || $this->canDo->get('core.options'))
         {
-            ToolbarHelper::preferences('com_jomodels');
+            $toolbar->preferences('com_jomodels');
         }
     }
 

@@ -17,7 +17,7 @@ or
 {model:img  img=|text=}</p>
 		<p>Created by <a href="http://www.jltryoen.fr" target="_blank">Jean-Luc Tryoen</a><br /><small>Development started 27th October, 2025</small></p>
 	]]></description>
-	<namespace path="src">JCB\Component\Jomodels</namespace>
+	<namespace path="src">JLTRY\Component\Jomodels</namespace>
 
 	<!-- Runs on install -->
 	<install>

@@ -3,7 +3,7 @@
                 JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-    @version		1.0.3
+    @version		1.0.5
     @build			26th October, 2025
     @created		27th October, 2025
     @package		JO Models
@@ -17,7 +17,7 @@
 \____) (_____)(_____)(_/\/\_)(____)(__)(__)   \___)(_____)(_/\/\_)(__)  (_____)(_)\_)(____)(_)\_) (__) 
 
 /------------------------------------------------------------------------------------------------------*/
-namespace JCB\Component\Jomodels\Site\Service;
+namespace JLTRY\Component\Jomodels\Site\Service;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -33,7 +33,7 @@ use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
-use JCB\Component\Jomodels\Administrator\Helper\JomodelsHelper;
+use JLTRY\Component\Jomodels\Administrator\Helper\JomodelsHelper;
 
 // No direct access to this file
 \defined('_JEXEC') or die;

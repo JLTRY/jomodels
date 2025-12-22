@@ -3,7 +3,7 @@
                 JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-    @version		1.0.3
+    @version		1.0.5
     @build			26th October, 2025
     @created		27th October, 2025
     @package		JO Models
@@ -17,7 +17,7 @@
 \____) (_____)(_____)(_/\/\_)(____)(__)(__)   \___)(_____)(_/\/\_)(__)  (_____)(_)\_)(____)(_)\_) (__) 
 
 /------------------------------------------------------------------------------------------------------*/
-namespace JCB\Component\Jomodels\Administrator\Controller;
+namespace JLTRY\Component\Jomodels\Administrator\Controller;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -32,7 +32,7 @@ use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
-use JCB\Component\Jomodels\Administrator\Helper\JomodelsHelper;
+use JLTRY\Component\Jomodels\Administrator\Helper\JomodelsHelper;
 
 // No direct access to this file
 \defined('_JEXEC') or die;
@@ -206,28 +206,6 @@ class ModlController extends FormController
         }
 
         return $append;
-    }
-
-    /**
-     * Method to run batch operations.
-     *
-     * @param   object  $model  The model.
-     *
-     * @return  boolean   True if successful, false otherwise and internal error is set.
-     *
-     * @since   2.5
-     */
-    public function batch($model = null)
-    {
-        Session::checkToken() or exit(Text::_('JINVALID_TOKEN'));
-
-        // Set the model
-        $model = $this->getModel('Modl', '', []);
-
-        // Preset the redirect
-        $this->setRedirect(Route::_('index.php?option=com_jomodels&view=modls' . $this->getRedirectToListAppend(), false));
-
-        return parent::batch($model);
     }
 
     /**

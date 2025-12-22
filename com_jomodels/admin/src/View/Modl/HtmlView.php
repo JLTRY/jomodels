@@ -3,7 +3,7 @@
                 JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-    @version		1.0.3
+    @version		1.0.5
     @build			26th October, 2025
     @created		27th October, 2025
     @package		JO Models
@@ -17,7 +17,7 @@
 \____) (_____)(_____)(_/\/\_)(____)(__)(__)   \___)(_____)(_/\/\_)(__)  (_____)(_)\_)(____)(_)\_) (__) 
 
 /------------------------------------------------------------------------------------------------------*/
-namespace JCB\Component\Jomodels\Administrator\View\Modl;
+namespace JLTRY\Component\Jomodels\Administrator\View\Modl;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -33,8 +33,9 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Document\Document;
-use JCB\Component\Jomodels\Administrator\Helper\JomodelsHelper;
-use JCB\Joomla\Utilities\StringHelper;
+use JLTRY\Component\Jomodels\Administrator\Helper\JomodelsHelper;
+use JLTRY\Joomla\Jomodels\Utilities\Permitted\Actions;
+use JLTRY\Joomla\Utilities\StringHelper;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
@@ -133,18 +134,18 @@ class HtmlView extends BaseHtmlView
     /**
      * The origin referral view name
      *
-     * @var    string
+     * @var    string|null
      * @since  3.10.11
      */
-    public string $ref;
+    public ?string $ref;
 
     /**
      * The origin referral item id
      *
-     * @var    int
+     * @var    int|null
      * @since  3.10.11
      */
-    public int $refid;
+    public ?int $refid;
 
     /**
      * The referral url suffix values
@@ -163,6 +164,34 @@ class HtmlView extends BaseHtmlView
     public bool $isModal;
 
     /**
+     * Constructor
+     *
+     * @param   array  $config  An optional associative array of configuration settings.
+     *
+     * @since   6.0.0
+     */
+    public function __construct(array $config)
+    {
+        if (empty($config['option']))
+        {
+            $config['option'] = 'com_jomodels';
+        }
+
+        parent::__construct($config);
+
+        // get application
+        $this->app ??= Factory::getApplication();
+        // get input
+        $this->input ??= method_exists($this->app, 'getInput') ? $this->app->getInput() : $this->app->input;
+        // set params
+        $this->params ??= method_exists($this->app, 'getParams')
+            ? $this->app->getParams()
+            : ComponentHelper::getParams('com_jomodels');
+
+        $this->useCoreUI = true;
+    }
+
+    /**
      * Modl view display method
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -173,15 +202,6 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null): void
     {
-        // get application
-        $this->app ??= Factory::getApplication();
-        // get input
-        $this->input ??= method_exists($this->app, 'getInput') ? $this->app->getInput() : $this->app->input;
-        // set params
-        $this->params ??= method_exists($this->app, 'getParams')
-            ? $this->app->getParams()
-            : ComponentHelper::getParams('com_jomodels');
-        $this->useCoreUI = true;
         // Load module values
         $model = $this->getModel();
         $this->form ??= $model->getForm();
@@ -189,30 +209,12 @@ class HtmlView extends BaseHtmlView
         $this->styles = $model->getStyles();
         $this->scripts = $model->getScripts();
         $this->state = $model->getState();
-        // get action permissions
-        $this->canDo = JomodelsHelper::getActions('modl', $this->item);
-        // get return referral details
-        $this->ref = $this->input->get('ref', 0, 'word');
-        $this->refid = $this->input->get('refid', 0, 'int');
-        $return = $this->input->get('return', null, 'base64');
-        // set the referral string
-        $this->referral = '';
-        if ($this->refid && $this->ref)
-        {
-            // return to the item that referred to this item
-            $this->referral = '&ref=' . (string) $this->ref . '&refid=' . (int) $this->refid;
-        }
-        elseif($this->ref)
-        {
-            // return to the list view that referred to this item
-            $this->referral = '&ref=' . (string) $this->ref;
-        }
-        // check return value
-        if (!is_null($return))
-        {
-            // add the return value
-            $this->referral .= '&return=' . (string) $return;
-        }
+
+        // get the permitted actions the current user can do.
+        $this->canDo = Actions::get('modl', $this->item);
+
+        // Set the return
+        $this->setReturn();
 
         // Set the toolbar
         if ($this->getLayout() !== 'modal')
@@ -237,6 +239,36 @@ class HtmlView extends BaseHtmlView
 
         // Display the template
         parent::display($tpl);
+    }
+
+    /**
+     * Set the redirection details.
+     *
+     * @return  void
+     * @since   5.1.4
+     */
+    protected function setReturn(): void
+    {
+        // This [ref,refid] will be removed in JCB.v7, use only [return]
+        $this->ref = $this->input->getWord('ref', null);
+        $this->refid = $this->input->getInt('refid', null);
+        $this->referral = '';
+        if (!empty($this->refid) && !empty($this->ref))
+        {
+            // return to the item that referred to this item
+            $this->referral = '&ref=' . (string) $this->ref . '&refid=' . (int) $this->refid;
+        }
+        elseif (!empty($this->ref))
+        {
+            // return to the list view that referred to this item
+            $this->referral = '&ref=' . (string) $this->ref;
+        }
+
+        $return = $this->input->getBase64('return', null);
+        if (!empty($return))
+        {
+            $this->referral .= '&return=' . (string) $return;
+        }
     }
 
     /**
@@ -269,7 +301,7 @@ class HtmlView extends BaseHtmlView
             }
             if ($isNew)
             {
-                // Do not creat but cancel.
+                // Do not create but cancel.
                 ToolbarHelper::cancel('modl.cancel', 'JTOOLBAR_CANCEL');
             }
             else
@@ -357,7 +389,7 @@ class HtmlView extends BaseHtmlView
             }
             if ($isNew)
             {
-                // Do not creat but cancel.
+                // Do not create but cancel.
                 ToolbarHelper::cancel('modl.cancel', 'JTOOLBAR_CANCEL');
             }
             else

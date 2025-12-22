@@ -3,7 +3,7 @@
                 JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-    @version		1.0.3
+    @version		1.0.5
     @build			26th October, 2025
     @created		27th October, 2025
     @package		JO Models
@@ -23,7 +23,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper as Html;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
-use JCB\Component\Jomodels\Administrator\Helper\JomodelsHelper;
+use JLTRY\Component\Jomodels\Administrator\Helper\JomodelsHelper;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->getDocument()->getWebAssetManager();
@@ -53,7 +53,7 @@ $tmpl    = $tmpl ? '&tmpl=' . $tmpl : '';
     });
 </script>
 <div id="jomodels_loader" style="display: none;">
-<form action="<?php echo Route::_('index.php?option=com_jomodels&&layout=' . $layout . $tmpl . '&id='. (int) $this->item->id . $this->referral); ?>" method="post" name="adminForm" id="adminForm" class="form-validate" enctype="multipart/form-data">
+<form action="<?php echo Route::_('index.php?option=com_jomodels&view=modl&layout=' . $layout . $tmpl . '&id='. (int) $this->item->id . $this->referral); ?>" method="post" name="adminForm" id="adminForm" class="form-validate" enctype="multipart/form-data">
 
 <div class="main-card">
 

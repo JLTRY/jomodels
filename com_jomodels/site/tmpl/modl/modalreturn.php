@@ -3,7 +3,7 @@
                 JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-    @version		1.0.3
+    @version		1.0.5
     @build			26th October, 2025
     @created		27th October, 2025
     @package		JO Models
@@ -23,7 +23,7 @@ use Joomla\CMS\Router\Route;
 // No direct access to this file
 defined('_JEXEC') or die;
 
-/** @var \JCB\Component\Jomodels\Site\View\Modl\HtmlView $this */
+/** @var \JLTRY\Component\Jomodels\Site\View\Modl\HtmlView $this */
 
 $icon = 'icon-check';
 $title_key = $this->item->id ?? '';

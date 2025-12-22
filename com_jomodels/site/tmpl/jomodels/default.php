@@ -3,7 +3,7 @@
                 JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-    @version		1.0.3
+    @version		1.0.5
     @build			26th October, 2025
     @created		27th October, 2025
     @package		JO Models
@@ -23,7 +23,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\HTML\HTMLHelper as Html;
-use JCB\Component\Jomodels\Site\Helper\JomodelsHelper;
+use JLTRY\Component\Jomodels\Site\Helper\JomodelsHelper;
 
 // No direct access to this file
 defined('_JEXEC') or die;

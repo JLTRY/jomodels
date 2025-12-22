@@ -3,7 +3,7 @@
                 JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-    @version		1.0.3
+    @version		1.0.5
     @build			26th October, 2025
     @created		27th October, 2025
     @package		JO Models
@@ -25,7 +25,7 @@ defined('_JEXEC') or die;
 spl_autoload_register(function ($class) {
     // project-specific base directories and namespace prefix
     $search = [
-        'libraries/jcb_powers/JCB.Joomla' => 'JCB\\Joomla'
+        'libraries/jcb_powers/JLTRY.Joomla' => 'JLTRY\\Joomla'
     ];
     // Start the search and load if found
     $found = false;

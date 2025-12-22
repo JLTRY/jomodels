@@ -3,7 +3,7 @@
                 JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-    @version		1.0.3
+    @version		1.0.5
     @build			26th October, 2025
     @created		27th October, 2025
     @package		JO Models
@@ -36,8 +36,8 @@ use Joomla\CMS\Extension\Service\Provider\MVCFactory;
 use Joomla\CMS\Extension\Service\Provider\RouterFactory;
 use Joomla\CMS\HTML\Registry;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use JCB\Component\Jomodels\Administrator\Extension\JomodelsComponent;
-// (soon) use JCB\Component\Jomodels\Administrator\Helper\AssociationsHelper;
+use JLTRY\Component\Jomodels\Administrator\Extension\JomodelsComponent;
+// (soon) use JLTRY\Component\Jomodels\Administrator\Helper\AssociationsHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
@@ -45,7 +45,7 @@ use Joomla\DI\ServiceProviderInterface;
 \defined('_JEXEC') or die;
 
 /**
- * The JCB Jomodels service provider.
+ * The JLTRY Jomodels service provider.
  *
  * @since  4.0.0
  */
@@ -64,10 +64,10 @@ return new class () implements ServiceProviderInterface
     {
         // (soon) $container->set(AssociationExtensionInterface::class, new AssociationsHelper());
 
-        $container->registerServiceProvider(new CategoryFactory('\\JCB\\Component\\Jomodels'));
-        $container->registerServiceProvider(new MVCFactory('\\JCB\\Component\\Jomodels'));
-        $container->registerServiceProvider(new ComponentDispatcherFactory('\\JCB\\Component\\Jomodels'));
-        $container->registerServiceProvider(new RouterFactory('\\JCB\\Component\\Jomodels'));
+        $container->registerServiceProvider(new CategoryFactory('\\JLTRY\\Component\\Jomodels'));
+        $container->registerServiceProvider(new MVCFactory('\\JLTRY\\Component\\Jomodels'));
+        $container->registerServiceProvider(new ComponentDispatcherFactory('\\JLTRY\\Component\\Jomodels'));
+        $container->registerServiceProvider(new RouterFactory('\\JLTRY\\Component\\Jomodels'));
 
         $container->set(
             ComponentInterface::class,
