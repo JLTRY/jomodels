@@ -3,7 +3,7 @@
                 JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-    @version		1.0.3
+    @version		1.0.5
     @build			26th October, 2025
     @created		27th October, 2025
     @package		JO Models
@@ -19,7 +19,7 @@
 /------------------------------------------------------------------------------------------------------*/
 
 use Joomla\CMS\Language\Text;
-use JCB\Joomla\Utilities\ArrayHelper;
+use JLTRY\Joomla\Utilities\ArrayHelper;
 
 // No direct access to this file
 defined('_JEXEC') or die;

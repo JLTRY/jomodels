@@ -42,22 +42,22 @@ function test() {
 COM_JOMODELS_FULL),
          "info" => new JOModel("info",
 '<pre>
-	<div class="%{class|blubox-jck}">
-		<table style="background: transparent; padding-top: 1em; padding-left: 1em;">
-			<tbody>
-				<tr>
-					<td border="0">
-						<span style="position: relative; top: -2px; margin-right: 5px; margin-left: 15px;">
-							{model:img src=/images/Information.png|width=36}
-						</span>
-					</td>
-					<td style="padding-right: 5px; padding-left: 20px;" border="0" valign="top">
-						%{content}
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
+    <div class="%{class|blubox-jck}">
+        <table style="background: transparent; padding-top: 1em; padding-left: 1em;">
+            <tbody>
+                <tr>
+                    <td border="0">
+                        <span style="position: relative; top: -2px; margin-right: 5px; margin-left: 15px;">
+                            {model:img src=/images/Information.png|width=36}
+                        </span>
+                    </td>
+                    <td style="padding-right: 5px; padding-left: 20px;" border="0" valign="top">
+                        %{content}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </pre>',
 COM_JOMODELS_FULL),
     "joomlalink" => new JOModel("joomlalink", 

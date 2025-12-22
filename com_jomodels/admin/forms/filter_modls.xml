@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form
-	addruleprefix="JCB\Component\Jomodels\Administrator\Rule"
-	addfieldprefix="JCB\Component\Jomodels\Administrator\Field"
+	addruleprefix="JLTRY\Component\Jomodels\Administrator\Rule"
+	addfieldprefix="JLTRY\Component\Jomodels\Administrator\Field"
 >
     <fields name="filter">
         <field

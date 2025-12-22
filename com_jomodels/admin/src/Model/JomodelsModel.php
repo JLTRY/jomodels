@@ -3,7 +3,7 @@
                 JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-    @version		1.0.3
+    @version		1.0.5
     @build			26th October, 2025
     @created		27th October, 2025
     @package		JO Models
@@ -17,7 +17,7 @@
 \____) (_____)(_____)(_/\/\_)(____)(__)(__)   \___)(_____)(_/\/\_)(__)  (_____)(_)\_)(____)(_)\_) (__) 
 
 /------------------------------------------------------------------------------------------------------*/
-namespace JCB\Component\Jomodels\Administrator\Model;
+namespace JLTRY\Component\Jomodels\Administrator\Model;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -33,9 +33,9 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\User\User;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\Input\Input;
-use JCB\Component\Jomodels\Administrator\Helper\JomodelsHelper;
-use JCB\Joomla\Utilities\ArrayHelper as UtilitiesArrayHelper;
-use JCB\Joomla\Utilities\StringHelper;
+use JLTRY\Component\Jomodels\Administrator\Helper\JomodelsHelper;
+use JLTRY\Joomla\Utilities\ArrayHelper as UtilitiesArrayHelper;
+use JLTRY\Joomla\Utilities\StringHelper;
 
 // No direct access to this file
 \defined('_JEXEC') or die;
@@ -107,7 +107,7 @@ class JomodelsModel extends ListModel
      * @since   1.6
      * @throws  \Exception
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null)
     {
         parent::__construct($config, $factory);
 

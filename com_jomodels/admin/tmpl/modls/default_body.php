@@ -3,7 +3,7 @@
                 JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-    @version		1.0.3
+    @version		1.0.5
     @build			26th October, 2025
     @created		27th October, 2025
     @package		JO Models
@@ -21,7 +21,8 @@
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper as Html;
-use JCB\Component\Jomodels\Administrator\Helper\JomodelsHelper;
+use JLTRY\Component\Jomodels\Administrator\Helper\JomodelsHelper;
+use JLTRY\Joomla\Jomodels\Utilities\Permitted\Actions;
 use Joomla\CMS\User\UserFactoryInterface;
 
 // No direct access to this file
@@ -35,8 +36,8 @@ $edit = "index.php?option=com_jomodels&view=modls&task=modl.edit";
         $canCheckin = $this->user->authorise('core.manage', 'com_checkin') || $item->checked_out == $this->user->id || $item->checked_out == 0;
         $userChkOut = Factory::getContainer()->
             get(UserFactoryInterface::class)->
-                loadUserById($item->checked_out ?? 0);
-        $canDo = JomodelsHelper::getActions('modl',$item,'modls');
+                loadUserById((int) ($item->checked_out ?? 0));
+        $canDo = Actions::get('modl', $item, 'modls');
     ?>
     <tr class="row<?php echo $i % 2; ?>">
         <td class="order nowrap center hidden-phone">

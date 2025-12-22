@@ -3,7 +3,7 @@
                 JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-    @version		1.0.3
+    @version		1.0.5
     @build			26th October, 2025
     @created		27th October, 2025
     @package		JO Models
@@ -17,15 +17,10 @@
 \____) (_____)(_____)(_/\/\_)(____)(__)(__)   \___)(_____)(_/\/\_)(__)  (_____)(_)\_)(____)(_)\_) (__) 
 
 /------------------------------------------------------------------------------------------------------*/
-namespace JCB\Component\Jomodels\Site\Helper;
+namespace JLTRY\Component\Jomodels\Site\Helper;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Categories\CategoryNode;
-use Joomla\CMS\Categories\Categories;
-use JCB\Joomla\Utilities\ArrayHelper;
+use Joomla\Registry\Registry;
 
 // No direct access to this file
 \defined('_JEXEC') or die;
@@ -37,153 +32,79 @@ use JCB\Joomla\Utilities\ArrayHelper;
  */
 abstract class RouteHelper
 {
-    protected static $lookup;
+    /**
+     * Registry to hold the jomodels params
+     *
+     * @var    Registry
+     * @since  5.1.3
+     */
+    protected static Registry $params;
 
     /**
-     * @param int The route of the Jomodels
+     * Get the URL route for jomodels
+     *
+     * @param   integer  $id     The id of the jomodels
+     *
+     * @return  string  The link to the jomodels
+     *
+     * @since   1.5
      */
-    public static function getJomodelsRoute($id = 0, $catid = 0)
+    public static function getJomodelsRoute($id = 0): string
     {
         if ($id > 0)
         {
-            // Initialize the needel array.
-            $needles = array(
-                'jomodels'  => array((int) $id)
-            );
             // Create the link
             $link = 'index.php?option=com_jomodels&view=jomodels&id='. $id;
         }
         else
         {
-            // Initialize the needel array.
-            $needles = array(
-                'jomodels'  => array()
-            );
             // Create the link but don't add the id.
             $link = 'index.php?option=com_jomodels&view=jomodels';
-        }
-        if ($catid > 1)
-        {
-            $categories = Categories::getInstance('jomodels.jomodels');
-            $category = $categories->get($catid);
-            if ($category)
-            {
-                $needles['category'] = array_reverse($category->getPath());
-                $needles['categories'] = $needles['category'];
-                $link .= '&catid='.$catid;
-            }
-        }
-
-        if ($item = self::_findItem($needles))
-        {
-            $link .= '&Itemid='.$item;
         }
 
         return $link;
     }
 
-    protected static function _findItem($needles = null,$type = null)
+    /**
+     * Retrieve a legacy-configured menu item override.
+     *
+     * This method is preserved for backward compatibility with older
+     * JCB-generated components where menu item overrides could be defined
+     * in the component's **global Options** panel. Administrators were able
+     * to add menu-item selector fields under the same tab name as the
+     * related entity/view type, using the naming convention:
+     *
+     *     {type}_menu
+     *
+     * Example:
+     *   - A field named `tag_menu` allowed administrators to force all tag
+     *     routing to use a specific menu item.
+     *
+     * These overrides served as a convenience mechanism for redirecting
+     * routing behaviour *without* modifying the router code.
+     *
+     * Joomla 5's recommended pattern now is to implement all routing
+     * decisions directly inside the router class. This method therefore
+     * remains solely as a **legacy fallback**, ensuring older sites continue
+     * functioning during migrations or long-term upgrade paths.
+     *
+     * If a matching `{type}_menu` parameter exists and contains a valid
+     * menu item ID (>0), that ID is returned. Otherwise, `null` is returned.
+     *
+     * @param  string  $type  The entity/view type whose `{type}_menu`
+     *                        override should be checked.
+     *
+     * @return int|null  The overridden menu item ID if available, otherwise null.
+     * @since   5.1.3
+     */
+    protected static function _findItem(string $type): ?int
     {
-        $app      = Factory::getApplication();
-        $menus    = $app->getMenu('site');
-        $language = isset($needles['language']) ? $needles['language'] : '*';
+        // Lazy-load the component parameters only once.
+        self::$params ??= ComponentHelper::getParams('com_jomodels');
 
-        // Prepare the reverse lookup array.
-        if (!isset(self::$lookup[$language]))
-        {
-            self::$lookup[$language] = [];
+        // Read the legacy override (0 means "not set").
+        $override = (int) self::$params->get($type . '_menu', 0);
 
-            $component  = ComponentHelper::getComponent('com_jomodels');
-
-            $attributes = array('component_id');
-            $values     = array($component->id);
-
-            if ($language != '*')
-            {
-                $attributes[] = 'language';
-                $values[]     = array($needles['language'], '*');
-            }
-
-            $items = $menus->getItems($attributes, $values);
-
-            foreach ($items as $item)
-            {
-                if (isset($item->query) && isset($item->query['view']))
-                {
-                    $view = $item->query['view'];
-
-                    if (!isset(self::$lookup[$language][$view]))
-                    {
-                        self::$lookup[$language][$view] = [];
-                    }
-
-                    if (isset($item->query['id']))
-                    {
-                        /**
-                         * Here it will become a bit tricky
-                         * language != * can override existing entries
-                         * language == * cannot override existing entries
-                         */
-                        if (!isset(self::$lookup[$language][$view][$item->query['id']]) || $item->language != '*')
-                        {
-                            self::$lookup[$language][$view][$item->query['id']] = $item->id;
-                        }
-                    }
-                    else
-                    {
-                        self::$lookup[$language][$view][0] = $item->id;
-                    }
-                }
-            }
-        }
-
-        if ($needles)
-        {
-            foreach ($needles as $view => $ids)
-            {
-                if (isset(self::$lookup[$language][$view]))
-                {
-                    if (ArrayHelper::check($ids))
-                    {
-                        foreach ($ids as $id)
-                        {
-                            if (isset(self::$lookup[$language][$view][(int) $id]))
-                            {
-                                return self::$lookup[$language][$view][(int) $id];
-                            }
-                        }
-                    }
-                    elseif (isset(self::$lookup[$language][$view][0]))
-                    {
-                        return self::$lookup[$language][$view][0];
-                    }
-                }
-            }
-        }
-
-        if ($type)
-        {
-            // Check if the global menu item has been set.
-            $params = ComponentHelper::getParams('com_jomodels');
-            if ($item = $params->get($type.'_menu', 0))
-            {
-                return $item;
-            }
-        }
-
-        // Check if the active menuitem matches the requested language
-        $active = $menus->getActive();
-
-        if ($active
-            && $active->component == 'com_jomodels'
-            && ($language == '*' || in_array($active->language, array('*', $language)) || !Multilanguage::isEnabled()))
-        {
-            return $active->id;
-        }
-
-        // If not found, return language specific home link
-        $default = $menus->getDefault($language);
-
-        return !empty($default->id) ? $default->id : null;
+        return $override > 0 ? $override : null;
     }
 }

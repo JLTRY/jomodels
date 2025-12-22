@@ -3,7 +3,7 @@
                 JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-    @version		1.0.3
+    @version		1.0.5
     @build			26th October, 2025
     @created		27th October, 2025
     @package		JO Models
@@ -17,7 +17,7 @@
 \____) (_____)(_____)(_/\/\_)(____)(__)(__)   \___)(_____)(_/\/\_)(__)  (_____)(_)\_)(____)(_)\_) (__) 
 
 /------------------------------------------------------------------------------------------------------*/
-namespace JCB\Component\Jomodels\Site\Controller;
+namespace JLTRY\Component\Jomodels\Site\Controller;
 
 use Joomla\Input\Input;
 use Joomla\CMS\Factory;
@@ -28,8 +28,8 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\User\User;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
-use JCB\Joomla\Utilities\StringHelper;
-use JCB\Joomla\Utilities\ArrayHelper as UtilitiesArrayHelper;
+use JLTRY\Joomla\Utilities\StringHelper;
+use JLTRY\Joomla\Utilities\ArrayHelper as UtilitiesArrayHelper;
 
 // No direct access to this file
 \defined('_JEXEC') or die;
@@ -73,7 +73,7 @@ class DisplayController extends BaseController
      * @throws \Exception
      * @since   3.0.1
      */
-    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], ?MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         $app ??= Factory::getApplication();
         $this->identity ??= $app->getIdentity();

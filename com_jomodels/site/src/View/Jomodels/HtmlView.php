@@ -3,7 +3,7 @@
                 JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-    @version		1.0.3
+    @version		1.0.5
     @build			26th October, 2025
     @created		27th October, 2025
     @package		JO Models
@@ -17,7 +17,7 @@
 \____) (_____)(_____)(_/\/\_)(____)(__)(__)   \___)(_____)(_/\/\_)(__)  (_____)(_)\_)(____)(_)\_) (__) 
 
 /------------------------------------------------------------------------------------------------------*/
-namespace JCB\Component\Jomodels\Site\View\Jomodels;
+namespace JLTRY\Component\Jomodels\Site\View\Jomodels;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -29,10 +29,10 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Document\Document;
-use JCB\Component\Jomodels\Site\Helper\HeaderCheck;
-use JCB\Component\Jomodels\Site\Helper\JomodelsHelper;
-use JCB\Component\Jomodels\Site\Helper\RouteHelper;
-use JCB\Joomla\Utilities\StringHelper;
+use JLTRY\Component\Jomodels\Site\Helper\HeaderCheck;
+use JLTRY\Component\Jomodels\Site\Helper\JomodelsHelper;
+use JLTRY\Component\Jomodels\Site\Helper\RouteHelper;
+use JLTRY\Joomla\Utilities\StringHelper;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
@@ -142,6 +142,7 @@ class HtmlView extends BaseHtmlView
         $this->menu = $this->app->getMenu()->getActive();
         // get the user object
         $this->user ??= $this->getCurrentUser();
+
         // Load module values
         $model = $this->getModel();
         $this->styles = $model->getStyles() ?? [];
@@ -169,20 +170,20 @@ class HtmlView extends BaseHtmlView
      * Add the page title and toolbar.
      *
      * @return  void
+     * @throws  \Exception
      * @since   1.6
      */
     protected function addToolbar(): void
     {
-
+        
+        // now initiate toolbar if it's not already loaded
+        $this->toolbar ??= $this->getDocument()->getToolbar();
         // set help url for this view if found
         $this->help_url = JomodelsHelper::getHelpUrl('jomodels');
         if (StringHelper::check($this->help_url))
         {
-            ToolbarHelper::help('COM_JOMODELS_HELP_MANAGER', false, $this->help_url);
+            $this->toolbar->help('COM_JOMODELS_HELP_MANAGER', false, $this->help_url);
         }
-
-        // add the toolbar if it's not already loaded
-        $this->toolbar ??= $this->getDocument()->getToolbar();
     }
 
     /**

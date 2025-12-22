@@ -3,7 +3,7 @@
                 JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-    @version		1.0.3
+    @version		1.0.5
     @build			26th October, 2025
     @created		27th October, 2025
     @package		JO Models
@@ -199,12 +199,6 @@ class Com_JomodelsInstallerScript implements InstallerScriptInterface
         // Remove Asset Data.
         $this->removeAssetData();
 
-
-        // Remove component from action logs extensions table.
-        $this->removeActionLogsExtensions();
-
-        // Remove Modl from action logs config table.
-        $this->removeActionLogConfig('com_jomodels.modl');
         // little notice as after service, in case of bad experience with component.
         echo '<div style="background-color: #fff;" class="alert alert-info">
         <h2>Did something go wrong? Are you disappointed?</h2>
@@ -285,7 +279,7 @@ class Com_JomodelsInstallerScript implements InstallerScriptInterface
                 // typeAlias
                 'com_jomodels.modl',
                 // table
-                '{"special": {"dbtable": "#__jomodels_modl","key": "id","type": "ModlTable","prefix": "JCB\Component\Jomodels\Administrator\Table"}}',
+                '{"special": {"dbtable": "#__jomodels_modl","key": "id","type": "ModlTable","prefix": "JLTRY\Component\Jomodels\Administrator\Table"}}',
                 // rules
                 '',
                 // fieldMappings
@@ -306,25 +300,6 @@ class Com_JomodelsInstallerScript implements InstallerScriptInterface
             echo '<div style="background-color: #fff;" class="alert alert-info"><a target="_blank" href="http://www.jltryoen.fr" title="JO Models">
                 <img src="components/com_jomodels/assets/images/vdm-component.jpg"/>
                 </a></div>';
-
-            // Add component to the action logs extensions table.
-            $this->setActionLogsExtensions();
-
-            // Add Modl to the action logs config table.
-            $this->setActionLogConfig(
-                // typeTitle
-                'MODL',
-                // typeAlias
-                'com_jomodels.modl',
-                // idHolder
-                'id',
-                // titleHolder
-                'id',
-                // tableName
-                '#__jomodels_modl',
-                // textPrefix
-                'COM_JOMODELS'
-            );
         }
 
         // do any updates needed
@@ -338,7 +313,7 @@ class Com_JomodelsInstallerScript implements InstallerScriptInterface
                 // typeAlias
                 'com_jomodels.modl',
                 // table
-                '{"special": {"dbtable": "#__jomodels_modl","key": "id","type": "ModlTable","prefix": "JCB\Component\Jomodels\Administrator\Table"}}',
+                '{"special": {"dbtable": "#__jomodels_modl","key": "id","type": "ModlTable","prefix": "JLTRY\Component\Jomodels\Administrator\Table"}}',
                 // rules
                 '',
                 // fieldMappings
@@ -354,26 +329,7 @@ class Com_JomodelsInstallerScript implements InstallerScriptInterface
             echo '<div style="background-color: #fff;" class="alert alert-info"><a target="_blank" href="http://www.jltryoen.fr" title="JO Models">
                 <img src="components/com_jomodels/assets/images/vdm-component.jpg"/>
                 </a>
-                <h3>Upgrade to Version 1.0.3 Was Successful! Let us know if anything is not working as expected.</h3></div>';
-
-            // Add/Update component in the action logs extensions table.
-            $this->setActionLogsExtensions();
-
-            // Add/Update Modl in the action logs config table.
-            $this->setActionLogConfig(
-                // typeTitle
-                'MODL',
-                // typeAlias
-                'com_jomodels.modl',
-                // idHolder
-                'id',
-                // titleHolder
-                'id',
-                // tableName
-                '#__jomodels_modl',
-                // textPrefix
-                'COM_JOMODELS'
-            );
+                <h3>Upgrade to Version 1.0.5 Was Successful! Let us know if anything is not working as expected.</h3></div>';
         }
 
         // move CLI files

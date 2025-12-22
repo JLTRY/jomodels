@@ -3,7 +3,7 @@
                 JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-    @version		1.0.3
+    @version		1.0.5
     @build			26th October, 2025
     @created		27th October, 2025
     @package		JO Models
@@ -17,7 +17,7 @@
 \____) (_____)(_____)(_/\/\_)(____)(__)(__)   \___)(_____)(_/\/\_)(__)  (_____)(_)\_)(____)(_)\_) (__) 
 
 /------------------------------------------------------------------------------------------------------*/
-namespace JCB\Component\Jomodels\Administrator\Extension;
+namespace JLTRY\Component\Jomodels\Administrator\Extension;
 
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Association\AssociationServiceTrait;
@@ -35,7 +35,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Tag\TagServiceInterface;
 use Joomla\CMS\Tag\TagServiceTrait;
 use Joomla\CMS\User\UserFactoryInterface;
-// (soon) use JCB\Component\Jomodels\Administrator\Service\HTML\AdministratorService;
+// (soon) use JLTRY\Component\Jomodels\Administrator\Service\HTML\AdministratorService;
 use Psr\Container\ContainerInterface;
 
 // No direct access to this file
@@ -78,7 +78,7 @@ class JomodelsComponent extends MVCComponent implements
     }
 
     // will fix these soon
-    protected function getTableNameForSection(string $section = null){}
-    public function countItems(array $items, string $section){}
+    protected function getTableNameForSection(?string $section = null){}
+    public function countItems(array $items, ?string $section){}
 
 }
