@@ -67,7 +67,8 @@ class JOModels extends CMSPlugin implements SubscriberInterface
         JOModelsHelper::init();
         Log::add("OnContentPrepare $context", Log::DEBUG, "jomodels");
         if (!count($this->allmodels)) {
-            foreach (glob( JPATH_ROOT . '/files/jocodes/' . '*.tmpl') as $file)
+            //retrieves all models present in /files/jcodes
+            foreach (glob( JPATH_ROOT . '/files/jomodels/' . '*.tmpl') as $file)
             {
                 $splitar = preg_split("/\./", basename($file));
                 $this->allmodels[$splitar[0]] = new JOFileModel($splitar[0], $file);

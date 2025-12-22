@@ -4,6 +4,9 @@ define("_JEXEC", 1);
 define("JPATH_ROOT", "F:\Sites\site OVH JLT local\joomla_5.0");
 require_once(__DIR__ . "/../src/Helper/JOModelsHelper.php");
 require_once(__DIR__ . "/Utility.php");
+require_once(__DIR__ . "/Factory.php");
+require_once(__DIR__ . "/FieldsHelper.php");
+require_once(__DIR__ . "/Log.php");
 use JLTRY\Plugin\Content\JOModels\Helper\JOModelsHelper;
 use JLTRY\Plugin\Content\JOModels\Helper\JOModel;
 use JLTRY\Plugin\Content\JOModels\Helper\JOFileModel;
@@ -94,6 +97,9 @@ COM_JOMODELS_FULL),
      "bracket" =>
       new JOModel("bracket", 
      '&#123;',
+    COM_JOMODELS_NORMAL),
+    "userimagelink" => new JOModel("userimagelink",
+    '<a href="%{u:photos}">%{ud:image-photos} %{u:titre-photos}</a>',
     COM_JOMODELS_NORMAL)
    ];
    
@@ -139,8 +145,9 @@ COM_JOMODELS_FULL),
 //'{jomodel:readmorewiki article="Docker" text="Docker"}',
 //'{jomodel:githublink link="jmcameron/attachments" text="attachments"}',
 //'{jomodel:githublink link=jmcameron/attachments|text=attachments}'
-    '<p>{model:warning}Attention à bien placer xml:lang juste après la balise pre!!!{/model:warning}</p>',
-    '{model:bracket}'
+//    '<p>{model:warning}Attention à bien placer xml:lang juste après la balise pre!!!{/model:warning}</p>',
+//    '{model:bracket}',
+    '{model:userimagelink}'
 ];
     foreach ($alltext as $text) {
         JOModelsHelper::replaceModels($text, $allmodels);

@@ -11,6 +11,9 @@
  * @link        https://www.jltryoen.fr
 */
 namespace JLTRY\Plugin\Content\JOModels\Helper;
+
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Utility\Utility;
 use Joomla\CMS\Log\Log;
@@ -87,6 +90,27 @@ class JOModelsHelper
     public static function init()
     {
     }
+
+    /**
+    * Function to get UserFielsValues for current user
+    *
+    * @param &$values : values filled
+    */
+    private static function _getUserFielsValues(&$values)
+    {
+        $user = Factory::getUser();
+        if ($user) {
+            $fields = FieldsHelper::getFields('com_users.user', $user, true);
+            foreach ($fields as $field) {
+                $values["ud:" . $field->name] = $field->value;
+            }
+            $fields = FieldsHelper::getFields('com_users.user', $user, false);
+            foreach ($fields as $field) {
+                $values["u:" . $field->name] = $field->value;
+            }
+        }
+    }
+
     /**
     * Function to insert model model
     *
@@ -97,7 +121,7 @@ class JOModelsHelper
     {
         $html_content = $model->content;
         foreach($params as $param => $value) {
-            if ( !(strpos($value,"%{") === false)) {
+            if (is_string($value) && !(strpos($value,"%{") === false)) {
                 $params[$param] = preg_replace_callback(JM_REGEX_VARIABLE_PATTERN,
                     function($matches) use ($params){
                         if (@$matches[1] && array_key_exists($matches[1], $params)) {
@@ -112,7 +136,7 @@ class JOModelsHelper
             $html_content = preg_replace("/\|%{". $param . "[^}]*?}/", "|". $value, $html_content);
         }
         foreach($params as $param => $value) {
-            $html_content = preg_replace("/%{". $param . "[^}]*?}/", $value, $html_content);
+            $html_content = preg_replace("/%{". $param . "[^}]*?}/", print_r($value, 1), $html_content);
         }
         //default variables
         $matches= array();
@@ -151,7 +175,7 @@ class JOModelsHelper
                     }
                     $params = array_merge($topparams, $localparams);
                 } else {
-                    $params = array();
+                    $params = $topparams;
                 }
                 if (@$matches[2]) {
                     $params['content'] = $matches[2];
@@ -166,10 +190,14 @@ class JOModelsHelper
             $text .= "recrusion!!!";
             return;
         }
+        //get the user fields values if user is connected
+        $fieldsvalues = array();
+        self::_getUserFielsValues($fieldsvalues);
         $submodels = array();
         foreach($allmodels  as $name => $model) {
             if (($filter == null) || in_array($name, $filter)) {
-                $params= array("ROOTURI" =>Uri::root());
+                $params= $fieldsvalues;
+                $params["ROOTURI"] = Uri::root();
                 $searchexp = sprintf(JM_REGEX_MODEL_SEARCH_PATTERN, $model->name);
                 $josearchexp = sprintf(JM_REGEX_JOMODEL_SEARCH_PATTERN, $model->name);
                 Log::add('replaceModels ?:=>:'. $name . ":" . $searchexp, Log::WARNING, 'jomodels');
