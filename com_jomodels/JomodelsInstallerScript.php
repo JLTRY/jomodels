@@ -3,8 +3,8 @@
                 JL Tryoen 
 /-------------------------------------------------------------------------------------------------------/
 
-    @version		1.0.5
-    @build			26th October, 2025
+    @version		1.0.6
+    @build			27th December, 2025
     @created		27th October, 2025
     @package		JO Models
     @subpackage		JomodelsInstallerScript.php
@@ -329,7 +329,7 @@ class Com_JomodelsInstallerScript implements InstallerScriptInterface
             echo '<div style="background-color: #fff;" class="alert alert-info"><a target="_blank" href="http://www.jltryoen.fr" title="JO Models">
                 <img src="components/com_jomodels/assets/images/vdm-component.jpg"/>
                 </a>
-                <h3>Upgrade to Version 1.0.5 Was Successful! Let us know if anything is not working as expected.</h3></div>';
+                <h3>Upgrade to Version 1.0.6 Was Successful! Let us know if anything is not working as expected.</h3></div>';
         }
 
         // move CLI files

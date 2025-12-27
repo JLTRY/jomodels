@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="5.0" method="upgrade">
 	<name>COM_JOMODELS</name>
-	<creationDate>26th October, 2025</creationDate>
+	<creationDate>27th December, 2025</creationDate>
 	<author>Jean-Luc Tryoen</author>
 	<authorEmail>jltryoen@orange.fr</authorEmail>
 	<authorUrl>http://www.jltryoen.fr</authorUrl>
 	<copyright>Copyright (C) 2025. All Rights Reserved</copyright>
 	<license>GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html</license>
-	<version>1.0.5</version>
+	<version>1.0.6</version>
 	<description><![CDATA[
-		<h1>JO Models (v.1.0.5)</h1>
+		<h1>JO Models (v.1.0.6)</h1>
 		<div style="clear: both;"></div>
 		<p>Add the possibility to create Models, i.e. text contents, that can be included in articles with usage of tags like
 {model:warning}content here {/model:warning}
 or
-{model:img  img=|text=}</p>
+{model:img  img=xxx|text=yyy}</p>
 		<p>Created by <a href="http://www.jltryoen.fr" target="_blank">Jean-Luc Tryoen</a><br /><small>Development started 27th October, 2025</small></p>
 	]]></description>
 	<namespace path="src">JLTRY\Component\Jomodels</namespace>
