@@ -1,4 +1,4 @@
-# jomodels 1.0.3
+# jomodels 1.0.5
 
 ## Quick Start
 
@@ -30,6 +30,10 @@ The package includes a component (helper), and 1 plugin
   
   ![jomodels3](https://github.com/user-attachments/assets/3411316f-e488-4c1b-831c-b28ca9845e23)
 
+
+## 2025-12-27 version 1.0.5
+
+add examples
 
 ## 2025-11-21 version 1.0.3
 
