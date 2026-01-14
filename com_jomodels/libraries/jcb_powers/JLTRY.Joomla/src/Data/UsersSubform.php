@@ -22,8 +22,8 @@ use Joomla\CMS\User\User;/***[/JCBGUI$$$$]***/
 
 use JLTRY\Joomla\Interfaces\Data\ItemsInterface as Items;
 use JLTRY\Joomla\Data\Guid;
-use JLTRY\Joomla\Jomodels\Utilities\UserHelper;
-use JLTRY\Joomla\Jomodels\Utilities\Exception\NoUserIdFoundException;
+use JLTRY\Joomla\Jofacebook\Utilities\UserHelper;
+use JLTRY\Joomla\Jofacebook\Utilities\Exception\NoUserIdFoundException;
 use JLTRY\Joomla\Utilities\Component\Helper as Component;
 use JLTRY\Joomla\Interfaces\Data\GuidInterface;
 use JLTRY\Joomla\Interfaces\Data\SubformInterface;

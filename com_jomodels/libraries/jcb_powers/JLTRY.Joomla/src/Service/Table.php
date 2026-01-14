@@ -20,9 +20,9 @@ namespace JLTRY\Joomla\Service;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;/***[/JCBGUI$$$$]***/
 
-use JLTRY\Joomla\Jomodels\Table as DataTable;
-use JLTRY\Joomla\Jomodels\Table\Schema;
-use JLTRY\Joomla\Jomodels\Table\Validator;
+use JLTRY\Joomla\Jofacebook\Table as DataTable;
+use JLTRY\Joomla\Jofacebook\Table\Schema;
+use JLTRY\Joomla\Jofacebook\Table\Validator;
 
 
 /**
@@ -55,7 +55,7 @@ class Table implements ServiceProviderInterface
     }
 
     /**
-     * Get The Jomodels Data Table Class.
+     * Get The Jofacebook Data Table Class.
      *
      * @param   Container  $container  The DI container.
      *
