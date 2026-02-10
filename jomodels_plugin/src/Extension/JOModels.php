@@ -96,7 +96,7 @@ class JOModels extends CMSPlugin implements SubscriberInterface
                 $jarticles->setState('params', $appParams);
                 $jarticles->setState('filter.published', 1);
                 $articles = $jarticles->getItems();
-                Log::add("articles found ".print_r($articles, true), Log::DEBUG, "jomodels");
+                //Log::add("articles found ".print_r($articles, true), Log::DEBUG, "jomodels");
                 foreach ($articles as $article) {
                     $this->allmodels[$article->alias] = new JOModel($article->alias, $article->text, $article->type);
                 }
@@ -104,7 +104,7 @@ class JOModels extends CMSPlugin implements SubscriberInterface
             else {
                  Log::add("no factory found ", Log::DEBUG, "jomodels");
             }
-            Log::add("models found ".print_r($this->allmodels, true), Log::DEBUG, "jomodels");
+            //Log::add("models found ".print_r($this->allmodels, true), Log::DEBUG, "jomodels");
         }
         JOModelsHelper::replaceModels($row->text, $this->allmodels); 
     }

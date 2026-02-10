@@ -105,7 +105,7 @@ class JOModelsHelper
                 $values["ud:" . $field->name] = $field->value;
             }
             $fields = FieldsHelper::getFields('com_users.user', $user, false);
-            Log::add('_getUserFielsValues :=>:'. ":" . print_r($fields, true), Log::WARNING, 'jomodels');
+            //Log::add('_getUserFielsValues :=>:'. ":" . print_r($fields, true), Log::WARNING, 'jomodels');
             foreach ($fields as $field) {
                 if ($field->value != "") {
                     $values["u:" . $field->name] = $field->value;
@@ -124,7 +124,7 @@ class JOModelsHelper
     private static function _model($model, $params)
     {
         $html_content = $model->content;
-        Log::add('_model :=>:'. $model->name . ":" . print_r($params, true), Log::WARNING, 'jomodels');
+        //Log::add('_model :=>:'. $model->name . ":" . print_r($params, true), Log::WARNING, 'jomodels');
         foreach($params as $param => $value) {
             if (is_string($value) && !(strpos($value,"%{") === false)) {
                 $params[$param] = preg_replace_callback(JM_REGEX_VARIABLE_PATTERN,
@@ -150,7 +150,7 @@ class JOModelsHelper
                 $html_content = preg_replace(JM_REGEX_DEFAULT_VARIABLE_PATTERN, '\1', $html_content);
             }
         }
-        Log::add('_model :=>:'. $html_content, Log::WARNING, 'jomodels');
+        //Log::add('_model :=>:'. $html_content, Log::WARNING, 'jomodels');
         return $html_content;
     }
 
@@ -206,11 +206,11 @@ class JOModelsHelper
                 $params["ROOTURI"] = Uri::root();
                 $searchexp = sprintf(JM_REGEX_MODEL_SEARCH_PATTERN, $model->name);
                 $josearchexp = sprintf(JM_REGEX_JOMODEL_SEARCH_PATTERN, $model->name);
-                Log::add('replaceModels ?:=>:'. $name . ":" . $searchexp, Log::WARNING, 'jomodels');
+                //Log::add('replaceModels ?:=>:'. $name . ":" . $searchexp, Log::WARNING, 'jomodels');
                 if (! (strpos( $text, $searchexp) === false) ||
                     ! (strpos( $text, $josearchexp) === false) )
                 {
-                    Log::add('replaceModels:=>:' . $text, Log::WARNING, 'jomodels');
+                    //Log::add('replaceModels:=>:' . $text, Log::WARNING, 'jomodels');
                     if ( $model->prio == COM_JOMODELS_NORMAL ) {
                         self::replaceModel(sprintf(JM_REGEX_JOMODEL_PATTERN, $model->name), $text, $allmodels, $model, $params);
                     }
@@ -218,7 +218,7 @@ class JOModelsHelper
                         self::replaceModel(sprintf(JM_REGEX_JOMODEL_FULL_PATTERN, $model->name, $model->name), $text, $allmodels, $model, $params);
                     }
                     $submodels = array_merge($model->allmodels, $submodels);
-                    Log::add('replaceModels:<=:'. $text, Log::WARNING, 'jomodels');
+                    //Log::add('replaceModels:<=:'. $text, Log::WARNING, 'jomodels');
                 }
             }
         }
