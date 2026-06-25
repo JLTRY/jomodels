@@ -51,7 +51,7 @@ class JOModels extends CMSPlugin implements SubscriberInterface
 
     function onContentPrepare(ContentPrepareEvent $event)
     {
-        //Escape fast
+        // Escape fast if not front-end
         if (!Factory::getApplication()->isClient('site')) {
             return;
         }
