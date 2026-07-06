@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.0" type="plugin" group="content" method="upgrade">
+<extension version="3.0"
+           type="plugin"
+           group="content"
+           method="upgrade">
 	<name>PLG_CONTENT_JOMODELS_XML</name>
 	<author>JL TRYOEN</author>
-	<creationDate>October 2025</creationDate>
+	<creationDate>July  7, 2026</creationDate>
 	<copyright>Copyright (C) 2025 JL TRYOEN. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-3.0.html GNU/GPL</license>
 	<authorEmail>jltryoen@orange.fr</authorEmail>
 	<authorUrl>www.jltryoen.fr</authorUrl>
-	<version>1.0.6</version>
+	<version>1.0.7</version>
 	<description>Generic Mediawiki like Template plugin, use it with {model:warning |content=content}</description>
 	<scriptfile>install.php</scriptfile>
 	<namespace path="src">JLTRY\Plugin\Content\JOModels</namespace>
@@ -19,20 +22,20 @@
 	<media destination="../files/jomodels">
 		<file>img.tmpl</file>
 	</media>
-    <config>
+	<config>
 		<fields name="params">
-            <fieldset name="basic">
-                <field
-                    name="catid"
-                    type="category"
-                    extension="com_content"
-                    class="inputbox"
-                    default=""
-                    label="PLG_CONTENT_JOMODELS_CATID_LABEL"
-                    description="PLG_CONTENT_JOMODELS_CATID_DESC"
-                    required="true"
-                />
-            </fieldset>
-        </fields>
-    </config>
+			<fieldset name="basic">
+				<field name="logs"
+						type="radio"
+						default="0"
+						layout="joomla.form.field.radio.switcher"
+						label="Logs"
+						description="Add Logs"
+						required="true">
+						<option value="0">JNO</option>
+						<option value="1">JYES</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
 </extension>

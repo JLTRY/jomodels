@@ -121,10 +121,10 @@ class JOModelsHelper
     * @param $model : the model
     * @param $params : paramters to replace
     */
-    private static function _model($model, $params)
+    private static function _model($plugin, $model, $params)
     {
         $html_content = $model->content;
-        //Log::add('_model :=>:'. $model->name . ":" . print_r($params, true), Log::WARNING, 'jomodels');
+        $plugin->Log('_model :=>:'. $model->name . ":" . print_r($params, true));
         foreach($params as $param => $value) {
             if (is_string($value) && !(strpos($value,"%{") === false)) {
                 $params[$param] = preg_replace_callback(JM_REGEX_VARIABLE_PATTERN,
@@ -150,7 +150,7 @@ class JOModelsHelper
                 $html_content = preg_replace(JM_REGEX_DEFAULT_VARIABLE_PATTERN, '\1', $html_content);
             }
         }
-        //Log::add('_model :=>:'. $html_content, Log::WARNING, 'jomodels');
+        $plugin->Log('_model :=>:'. $html_content);
         return $html_content;
     }
 
@@ -168,10 +168,10 @@ class JOModelsHelper
         }
     }
 
-    public static function replaceModel($regexp, &$text, $allmodels, $model, $topparams)
+    public static function replaceModel($plugin, $regexp, &$text, $allmodels, $model, $topparams)
     {
         $text = preg_replace_callback($regexp,
-            function($matches) use ($topparams, $model, $allmodels){
+            function($matches) use ($plugin, $topparams, $model, $allmodels){
                 if (@$matches[1]) {
                     if ( strpos( $matches[1], "\"") === false ) {
                         $localparams = array();
@@ -186,11 +186,11 @@ class JOModelsHelper
                 if (@$matches[2]) {
                     $params['content'] = $matches[2];
                 }
-                return self::_model($model, $params);
+                return self::_model($plugin, $model, $params);
             }, $text);
     }
 
-    public static function replaceModels(&$text, $allmodels, $filter = null, $recurse = 0)
+    public static function replaceModels($plugin, &$text, $allmodels, $filter = null, $recurse = 0)
     {
         if ($recurse >= 10) {
             $text .= "recrusion!!!";
@@ -206,24 +206,24 @@ class JOModelsHelper
                 $params["ROOTURI"] = Uri::root();
                 $searchexp = sprintf(JM_REGEX_MODEL_SEARCH_PATTERN, $model->name);
                 $josearchexp = sprintf(JM_REGEX_JOMODEL_SEARCH_PATTERN, $model->name);
-                //Log::add('replaceModels ?:=>:'. $name . ":" . $searchexp, Log::WARNING, 'jomodels');
+                $plugin->Log('replaceModels ?:=>:'. $name . ":" . $searchexp);
                 if (! (strpos( $text, $searchexp) === false) ||
                     ! (strpos( $text, $josearchexp) === false) )
                 {
-                    //Log::add('replaceModels:=>:' . $text, Log::WARNING, 'jomodels');
+                    $plugin->Log('replaceModels:=>:' . $text);
                     if ( $model->prio == COM_JOMODELS_NORMAL ) {
-                        self::replaceModel(sprintf(JM_REGEX_JOMODEL_PATTERN, $model->name), $text, $allmodels, $model, $params);
+                        self::replaceModel($plugin, sprintf(JM_REGEX_JOMODEL_PATTERN, $model->name), $text, $allmodels, $model, $params);
                     }
                     if ( $model->prio == COM_JOMODELS_FULL) {
-                        self::replaceModel(sprintf(JM_REGEX_JOMODEL_FULL_PATTERN, $model->name, $model->name), $text, $allmodels, $model, $params);
+                        self::replaceModel($plugin, sprintf(JM_REGEX_JOMODEL_FULL_PATTERN, $model->name, $model->name), $text, $allmodels, $model, $params);
                     }
                     $submodels = array_merge($model->allmodels, $submodels);
-                    //Log::add('replaceModels:<=:'. $text, Log::WARNING, 'jomodels');
+                    $plugin->Log('replaceModels:<=:'. $text);
                 }
             }
         }
         if (count($submodels) && $recurse < 5) {
-            self::replaceModels($text, $allmodels, $submodels, $recurse +1);
+            self::replaceModels($plugin, $text, $allmodels, $submodels, $recurse +1);
         }
     }
 }

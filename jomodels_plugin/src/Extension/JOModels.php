@@ -18,8 +18,10 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Utility\Utility;
+use Joomla\Registry\Registry;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Utilities\ArrayHelper;
+
 use JLTRY\Plugin\Content\JOModels\Helper\JOModel;
 use JLTRY\Plugin\Content\JOModels\Helper\JOFileModel;
 use JLTRY\Plugin\Content\JOModels\Helper\JOModelsHelper;
@@ -41,12 +43,35 @@ use JLTRY\Plugin\Content\JOModels\Helper\JOModelsHelper;
 class JOModels extends CMSPlugin implements SubscriberInterface
 {
     var $allmodels = [];
+    var $logs = false;
 
     public static function getSubscribedEvents(): array
     {
         return [
             'onContentPrepare'  => 'onContentPrepare'
         ];
+    }
+
+
+    private function addLogger() {
+        Log::addLogger(
+            array(
+             // Sets file name.
+             'text_file' => 'plg_content_jomodels.php',
+             // Sets the format of each line.
+             'text_entry_format' => '{DATETIME} {PRIORITY} {MESSAGE}'
+            ),
+            // Sets all but DEBUG log level messages to be sent to the file.
+            Log::ALL,
+            // The log category which should be recorded in this file.
+            array('plg_content_jomodels')
+        );
+    }
+
+    public function Log($msg, $type = Log::WARNING ){
+        if ($this->logs) {
+            Log::add($msg, $type, 'plg_content_jomodels');
+        }
     }
 
     function onContentPrepare(ContentPrepareEvent $event)
@@ -59,13 +84,21 @@ class JOModels extends CMSPlugin implements SubscriberInterface
         if (!$this->params->get('enabled', 1)) {
             return true;
         }
+        $params = new Registry($this->params);
+
+        // Valeur du paramètre, avec une valeur par défaut éventuelle
+        $this->logs = (int)$params->get('logs', '0');
+        if ($this->logs) {
+            $this->addLogger();
+        }
+        Log::add("log:" . print_r($this->logs, true) . ":", Log::WARNING , '');
         // use this format to get the arguments for both Joomla 4 and Joomla 5
         // In Joomla 4 a generic Event is passed
         // In Joomla 5 a concrete ContentPrepareEvent is passed
         [$context, $row, $params, $page] = array_values($event->getArguments());
         if ($context == 'com_jomodels.jomodels.text') return;
         JOModelsHelper::init();
-        Log::add("OnContentPrepare $context", Log::DEBUG, "jomodels");
+        $this->Log("OnContentPrepare $context", Log::DEBUG);
         if (!count($this->allmodels)) {
             //retrieves all models present in /files/jcodes
             foreach (glob( JPATH_ROOT . '/files/jomodels/' . '*.tmpl') as $file)
@@ -73,21 +106,6 @@ class JOModels extends CMSPlugin implements SubscriberInterface
                 $splitar = preg_split("/\./", basename($file));
                 $this->allmodels[$splitar[0]] = new JOFileModel($splitar[0], $file);
             }
-            //retrieves all articles of "models" category
-            /*$catId = $this->params->get('catid');
-            if ($catId) {
-                $factory = Factory::getApplication()->bootComponent('com_content')->getMVCFactory();
-                // Get an instance of the generic articles model
-                $jarticles = $factory->createModel('Articles', 'Site', ['ignore_request' => true]);
-                $jarticles->setState('filter.category_id', array($catId));
-                $appParams = Factory::getApplication()->getParams();
-                $jarticles->setState('params', $appParams);
-                $jarticles->setState('filter.published', 1);
-                $articles= $jarticles->getItems();
-                foreach ($articles as $article) {
-                    $this->allmodels[$article->alias] = new JOModel($article->alias, $article->introtext, $article->metakey);
-                }
-            }*/
             //retrieves all Models
             $factory = Factory::getApplication()->bootComponent('com_jomodels')->getMVCFactory();
             if ($factory) {
@@ -102,10 +120,10 @@ class JOModels extends CMSPlugin implements SubscriberInterface
                 }
             }
             else {
-                 Log::add("no factory found ", Log::DEBUG, "jomodels");
+                 $this->Log("no factory found ", Log::DEBUG);
             }
-            //Log::add("models found ".print_r($this->allmodels, true), Log::DEBUG, "jomodels");
+            $this->Log("models found ".print_r($this->allmodels, true), Log::DEBUG);
         }
-        JOModelsHelper::replaceModels($row->text, $this->allmodels); 
+        JOModelsHelper::replaceModels($this, $row->text, $this->allmodels); 
     }
 }

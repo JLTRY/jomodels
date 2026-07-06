@@ -1,4 +1,4 @@
-VERSION = "1.0.6"
+VERSION = "1.0.7"
 VERSION2 = $(shell echo $(VERSION)|sed 's/ /-/g')
 PKG = pkg_jomodels
 ZIPFILE = $(PKG)-$(VERSION2).zip
